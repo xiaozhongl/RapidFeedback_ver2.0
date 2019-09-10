@@ -158,46 +158,39 @@ public class MysqlFunction {
 	/**
 	 * create a project in the server database
 	 * 
-	 * @param username    user's e-mail address
+	 * @param principalId the project founder's id
 	 * @param projectName the project name
 	 * @param subjectCode the subject code
 	 * @param subjectName the subject name
+	 * @param duration the presentation duration in second
+	 * @param warning  the time left in second before presentation ends
 	 * @param description the description of the project
-	 * @return the generated primary key in the sql databse
+	 * @return the generated primary key in the sql databse, if fails return 0
 	 * @throws SQLException
 	 */
-	public int createProject(String username, String projectName,
-			String subjectCode, String subjectName, String description)
+	public int createProject(int principalId, String projectName, String subjectCode,
+							 String subjectName, int duration, int warning,
+							 String description)
 			throws SQLException {
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs = null;
+		ResultSet rs;
 		String sql;
-		int lecturerId = 0;
+//		int principalId;
 		int pjId = 0;
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
-			lecturerId = getLecturerId(username);
-			sql = "INSERT INTO Project(primaryMail, name, subjectCode, subjectName) "
-					+ "values( '" + username + "','" + projectName + "','"
-					+ subjectCode + "','" + subjectName + "' )";
+//			principalId = getLecturerId(principalName);
+			sql = "INSERT INTO Project(name, subjectName, subjectCode, durationSec, " +
+					"warningSec, description, idPrincipalMarker) "
+					+ "values( '" + projectName + "','" + subjectName + "','" + subjectCode + "','"
+					+ duration + "','" + warning + "','" + description + "','" + principalId + "')";
 			stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 			System.out.println(sql);
 			rs = stmt.getGeneratedKeys();
 			if (rs.next()) {
 				pjId = rs.getInt(1);
-				sql = "INSERT INTO Lecturers_has_Project(idLecturers, idProject,If_Primary) "
-						+ "values( '" + lecturerId + "','" + pjId + "','" + 1
-						+ "' )";
-				stmt.executeUpdate(sql);
-				System.out.println(sql);
-			}
-			if (description != null) {
-				sql = "UPDATE Project SET Description = '" + description + "' "
-						+ "WHERE idProject = " + "'" + pjId + "' ";
-				stmt.executeUpdate(sql);
-				System.out.println(sql);
 			}
 		} catch (SQLException se) {
 			// JDBC faults
@@ -211,102 +204,101 @@ public class MysqlFunction {
 	/**
 	 * update the project information in the server database
 	 * 
-	 * @param username    the user's e-mail
+	 * @param projectId   the project's Id
 	 * @param projectName the updated project name
 	 * @param subjectCode the updated subject code
 	 * @param subjectName the updated subject name
+	 * @param duration the presentation duration in second
+	 * @param warning  the time left in second before presentation ends
 	 * @param description the updated project description
 	 * @return True = update successfully; False = fail to update
 	 * @throws SQLException
 	 */
-	public boolean updateProjectInfo(String username, String projectName,
-			String subjectCode, String subjectName, String description)
+	public boolean updateProjectInfo(int projectId, String projectName, String subjectCode,
+									 String subjectName, int duration, int warning, String description)
 			throws SQLException {
-		boolean result = false;
+
+		boolean updated = false;
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs = null;
+		ResultSet rs;
 		String sql;
-		int pjId = 0;
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
-			pjId = getProjectId(username, projectName);
-			sql = "UPDATE Project SET primaryMail = '" + username
-					+ "', name = '" + projectName + "', subjectCode = '"
-					+ username + "', subjectName = '" + subjectName + "' "
-					+ "WHERE idProject = " + "'" + pjId + "' ";
+			sql = "UPDATE Project SET " +
+					"name = '" + projectName + "', " +
+					"subjectName = '" + subjectName + "', " +
+					"subjectCode = '" + subjectCode + "', " +
+					"durationSec = '" + duration + "', " +
+					"warningSec = '" + warning  + "', " +
+					"description = '" + description + "' " +
+					"WHERE id = '" + projectId + "' ";
 			stmt.executeUpdate(sql);
 			System.out.println(sql);
-			if (description != null) {
-				sql = "UPDATE Project SET Description = '" + description + "' "
-						+ "WHERE idProject = " + "'" + pjId + "' ";
-				stmt.executeUpdate(sql);
-				System.out.println(sql);
-			}
-			result = true;
+			updated = true;
 		} catch (SQLException se) {
 			// JDBC faults
 			se.printStackTrace();
 		} finally {
 			close2(conn, stmt, rs);
 		}
-		return result;
+		return updated;
 	}
 
-	/**
-	 * update the time information of a project in the db
-	 * 
-	 * @param pjId        the primary key in the Table project
-	 * @param durationMin
-	 * @param durationSec
-	 * @param warningMin
-	 * @param warningSec
-	 * @return True = update successfully; False = fail to update
-	 * @throws SQLException
-	 */
-	public boolean updateTimeInformation(int pjId, int durationMin,
-			int durationSec, int warningMin, int warningSec)
-			throws SQLException {
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql;
-		boolean result = false;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			sql = "UPDATE Project SET durationMin = '" + durationMin + "',  "
-					+ "durationSec = '" + durationSec + "' "
-					+ "WHERE idProject = " + "'" + pjId + "' ";
-			stmt.executeUpdate(sql);
-			System.out.println(sql);
-
-			sql = "UPDATE Project SET warningMin = '" + warningMin + "',  "
-					+ "warningSec = '" + warningSec + "' "
-					+ "WHERE idProject = " + "'" + pjId + "' ";
-			stmt.executeUpdate(sql);
-			System.out.println(sql);
-			result = true;
-
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close2(conn, stmt, rs);
-		}
-		return result;
-	}
+//	/**
+//	 * update the time information of a project in the db
+//	 *
+//	 * @param pjId        the primary key in the Table project
+//	 * @param durationMin
+//	 * @param durationSec
+//	 * @param warningMin
+//	 * @param warningSec
+//	 * @return True = update successfully; False = fail to update
+//	 * @throws SQLException
+//	 */
+//	public boolean updateTimeInformation(int pjId, int durationMin,
+//			int durationSec, int warningMin, int warningSec)
+//			throws SQLException {
+//		Connection conn = null;
+//		Statement stmt = null;
+//		ResultSet rs = null;
+//		String sql;
+//		boolean result = false;
+//		try {
+//			conn = connectToDB(DB_URL, USER, PASS);
+//			stmt = conn.createStatement();
+//			sql = "UPDATE Project SET durationMin = '" + durationMin + "',  "
+//					+ "durationSec = '" + durationSec + "' "
+//					+ "WHERE idProject = " + "'" + pjId + "' ";
+//			stmt.executeUpdate(sql);
+//			System.out.println(sql);
+//
+//			sql = "UPDATE Project SET warningMin = '" + warningMin + "',  "
+//					+ "warningSec = '" + warningSec + "' "
+//					+ "WHERE idProject = " + "'" + pjId + "' ";
+//			stmt.executeUpdate(sql);
+//			System.out.println(sql);
+//			result = true;
+//
+//		} catch (SQLException se) {
+//			// JDBC faults
+//			se.printStackTrace();
+//		} finally {
+//			close2(conn, stmt, rs);
+//		}
+//		return result;
+//	}
 
 	/**
 	 * delete a project from the db
 	 * 
-	 * @param pjId the primary key in the Table projec
+	 * @param projectId  the project's Id
 	 * @return True = delete successfully; False = faile to delete
 	 * @throws SQLException
 	 */
-	public boolean deleteProject(int pjId) throws SQLException {
-		boolean result = false;
+	public boolean deleteProject(int projectId) throws SQLException {
+		boolean deleted = false;
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -314,9 +306,9 @@ public class MysqlFunction {
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
-			sql = "DELETE FROM Project WHERE idProject =" + pjId + ";";
+			sql = "DELETE FROM Project WHERE id =" + projectId + ";";
 			stmt.executeUpdate(sql);
-			result = true;
+			deleted = true;
 			System.out.println(sql);
 		} catch (SQLException se) {
 			// JDBC faults
@@ -324,7 +316,7 @@ public class MysqlFunction {
 		} finally {
 			close2(conn, stmt, rs);
 		}
-		return result;
+		return deleted;
 	}
 
 	/**
@@ -558,13 +550,22 @@ public class MysqlFunction {
 		return result;
 	}
 
+
+	/**
+	 * add a student to the database
+	 *
+	 * @param critId a primary key in the Criteria Table
+	 * @param ss     a Subsection object
+	 * @return the primary key of the Subsection table generated by the system
+	 * @throws SQLException
+	 */
 	public boolean addStudentInfo(int projectId, String studentNumber,
-			String mail, String firstName, String surName, String middleName,
+			String email, String firstName, String lastName, String middleName,
 			int group) throws SQLException {
 		boolean result = false;
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs = null;
+		ResultSet rs;
 		String sql;
 		try {
 			double mark = -999.00;
@@ -666,6 +667,8 @@ public class MysqlFunction {
 		}
 		return result;
 	}
+
+	public boolean assignStudentToProject (int studentId, int projectId, )
 
 	public boolean addOtherAssessor(int lecturerId, int projectId)
 			throws SQLException {
