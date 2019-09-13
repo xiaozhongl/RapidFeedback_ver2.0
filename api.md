@@ -292,7 +292,7 @@
     username: String
 }
 ```
-* return
+* response
 ```
 {
     syn_ACK: boolean
