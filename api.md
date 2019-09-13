@@ -9,7 +9,7 @@
     password:
 }
 ```
-* return
+* response
 ```
 {
     login_ACK: // if > 0 then login succeed/ -2 then fail
@@ -30,7 +30,7 @@
     lastName:
 }
 ```
-* return
+* response
 ``` 
 {
     register_ACK: //true: success/ false: fail
@@ -50,7 +50,7 @@
     email: // student's email
 }
 ```
-* return
+* response
 ``` 
 {
     updateStudent_ACK: boolean
@@ -67,7 +67,7 @@
     commentCriteriaListString: String
 }
 ```
-* return
+* response
 ```
 {
     updateProject_ACK: boolean
@@ -82,7 +82,7 @@
     projectName: String
 }
 ```
-* return
+* response
 ```
 {
     updateProject_ACK: boolean
@@ -98,7 +98,7 @@
     studentID: String
 }
 ```
-* return
+* response
 ```
 {
     updateStudent_ACK: boolean
@@ -118,7 +118,7 @@
     email: // student's email
 }
 ```
-* return
+* response
 ```
 {
     updateStudent_ACK: boolean
@@ -134,7 +134,7 @@
     primaryEmail: String
 }
 ```
-* return
+* response
 ```
 {
     getMark_ACK: boolean
@@ -153,7 +153,7 @@
     group: integer
 }
 ```
-* return
+* response
 ```
 {
     updateStudent_ACK: boolean
@@ -169,7 +169,7 @@
     studentList: String
 }
 ```
-* return
+* response
 ```
 {
     updateStudent_ACK: boolean
@@ -185,7 +185,7 @@
     assessorEmail: String
 }
 ```
-* return
+* response
 ```
 {
     invite_ACK: boolean
@@ -202,7 +202,7 @@
     assessorEmail: String
 }
 ```
-* return
+* response
 ```
 {
     invite_ACK: boolean
@@ -222,7 +222,7 @@
     primaryEmail: String
 }
 ```
-* return
+* response
 ```
 {
     mark_AC: boolean
@@ -239,7 +239,7 @@
     sendBoth: int
 }
 ```
-* return
+* response
 ```
 {
     sendMail_ACK: boolean
@@ -257,7 +257,7 @@
     description: String
 }
 ```
-* return
+* response
 ```
 {
     updateProject_ACK: boolean
@@ -276,9 +276,28 @@
     warningSec: int
 }
 ```
-* return
+* response
 ```
 {
     updateProject_ACK: boolean
+}
+```
+
+### /SyncProjectListServlet
+* update the project list
+* POST
+```
+{
+    token: String
+    username: String
+}
+```
+* response
+```
+{
+    syn_ACK: boolean
+    projectList: String
+    token: String
+    firstname: String
 }
 ```
