@@ -275,6 +275,7 @@
     warningMin: int
     warningSec: int
 }
+```
 * return
 ```
 {
