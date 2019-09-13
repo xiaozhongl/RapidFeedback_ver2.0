@@ -12,7 +12,7 @@
 * response
 ```
 {
-    login_ACK: // if > 0 then login succeed/ -2 then fail
+    login_ACK: // >0 succeed/ 0: wrong password/ -1: no email address in database
     projectList:
     firstName:
     token:
