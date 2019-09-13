@@ -297,7 +297,7 @@
 {
     syn_ACK: boolean
     projectList: String
-    token String
+    token: String
     firstname: String
 }
 ```
