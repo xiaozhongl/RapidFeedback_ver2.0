@@ -282,3 +282,22 @@
     updateProject_ACK: boolean
 }
 ```
+
+### /SyncProjectListServlet
+* update the project list
+* POST
+```
+{
+    token: String
+    username: String
+}
+```
+* return
+```
+{
+    syn_ACK: boolean
+    projectList: String
+    token: String
+    firstname: String
+}
+```
