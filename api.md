@@ -160,7 +160,7 @@
 }
 ```
 ### /ImportStudentsServlet
-* to store a list of students of a project
+* send a list of students of a project to server
 * POST
 ```
 {
@@ -211,7 +211,7 @@
 }
 ```
 ### /MarkServlet
-* to store the student's mark
+* send the student's mark to server
 * POST
 ```
 {
@@ -246,7 +246,7 @@
 }
 ```
 ### /UpdateProject_About_Servlet
-* update project about info
+* require to edit project about info
 * POST
 ```
 {
@@ -264,7 +264,7 @@
 }
 ```
 ### /UpdateProject_Time_Servlet
-* update the project time setting info
+* request to edit the project time setting info
 * POST
 ```
 {
@@ -284,7 +284,7 @@
 ```
 
 ### /SyncProjectListServlet
-* update the project list
+* request for the project list
 * POST
 ```
 {
