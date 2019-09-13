@@ -210,3 +210,74 @@
     sendMail_ACK: boolean
 }
 ```
+### /MarkServlet
+* to store the student's mark
+* POST
+```
+{
+    token: String
+    projectName: String
+    studentID: String
+    mark: String     // actual type: Mark
+    primaryEmail: String
+}
+```
+* return
+```
+{
+    mark_AC: boolean
+}
+```
+### /SendEmailServlet
+* Generate pdf result report for a student, and email the report, and delete the local pdf file
+* POST
+```
+{
+    token: String
+    projectName: String
+    studentID: String
+    sendBoth: int
+}
+```
+* return
+```
+{
+    sendMail_ACK: boolean
+}
+```
+### /UpdateProject_About_Servlet
+* update project about info
+* POST
+```
+{
+    token: String
+    projectName: String
+    subjectName: String
+    subjectCode: String
+    description: String
+}
+```
+* return
+```
+{
+    updateProject_ACK: boolean
+}
+```
+### /UpdateProject_Time_Servlet
+* update the project time setting info
+* POST
+```
+{
+    token: String
+    projectName: String
+    durationMin: int
+    durationSec: int
+    warningMin: int
+    warningSec: int
+}
+* return
+```
+{
+    updateProject_ACK: boolean
+}
+```
