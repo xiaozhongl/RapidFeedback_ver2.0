@@ -165,7 +165,7 @@ public class MysqlFunction {
 	 * @param duration the presentation duration in second
 	 * @param warning  the time left in second before presentation ends
 	 * @param description the description of the project
-	 * @return the generated primary key in the sql databse, if fails return 0
+	 * @return the generated primary key in the sql database, if fails return 0
 	 * @throws SQLException
 	 */
 	public int createProject(int principalId, String projectName, String subjectCode,
@@ -174,7 +174,7 @@ public class MysqlFunction {
 			throws SQLException {
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs;
+		ResultSet rs = null;
 		String sql;
 //		int principalId;
 		int pjId = 0;
@@ -184,8 +184,8 @@ public class MysqlFunction {
 //			principalId = getLecturerId(principalName);
 			sql = "INSERT INTO Project(name, subjectName, subjectCode, durationSec, " +
 					"warningSec, description, idPrincipalMarker) "
-					+ "values( '" + projectName + "','" + subjectName + "','" + subjectCode + "','"
-					+ duration + "','" + warning + "','" + description + "','" + principalId + "')";
+					+ "values( '" + projectName + "','" + subjectName + "','" + subjectCode + "',"
+					+ duration + "," + warning + ",'" + description + "'," + principalId + ");";
 			stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 			System.out.println(sql);
 			rs = stmt.getGeneratedKeys();
@@ -217,11 +217,9 @@ public class MysqlFunction {
 	public boolean updateProjectInfo(int projectId, String projectName, String subjectCode,
 									 String subjectName, int duration, int warning, String description)
 			throws SQLException {
-
 		boolean updated = false;
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs;
 		String sql;
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
@@ -230,10 +228,10 @@ public class MysqlFunction {
 					"name = '" + projectName + "', " +
 					"subjectName = '" + subjectName + "', " +
 					"subjectCode = '" + subjectCode + "', " +
-					"durationSec = '" + duration + "', " +
-					"warningSec = '" + warning  + "', " +
+					"durationSec = " + duration + ", " +
+					"warningSec = " + warning  + ", " +
 					"description = '" + description + "' " +
-					"WHERE id = '" + projectId + "' ";
+					"WHERE id = " + projectId + ";";
 			stmt.executeUpdate(sql);
 			System.out.println(sql);
 			updated = true;
@@ -241,7 +239,7 @@ public class MysqlFunction {
 			// JDBC faults
 			se.printStackTrace();
 		} finally {
-			close2(conn, stmt, rs);
+			close1(conn, stmt);
 		}
 		return updated;
 	}
@@ -301,7 +299,6 @@ public class MysqlFunction {
 		boolean deleted = false;
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs = null;
 		String sql;
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
@@ -314,10 +311,116 @@ public class MysqlFunction {
 			// JDBC faults
 			se.printStackTrace();
 		} finally {
-			close2(conn, stmt, rs);
+			close1(conn, stmt);
 		}
 		return deleted;
 	}
+
+	/**
+	 * get the project id given principal's id and project name
+	 *
+	 * @param principalId the project founder's id
+	 * @param projectName name of the project
+	 * @return the id found, if not return 0
+	 * @throws SQLException
+	 */
+	public int getProjectId(int principalId, String projectName)
+			throws SQLException {
+		int id = 0;
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			sql = "SELECT id FROM Project " +
+					"WHERE idPrincipalMarker ="+ principalId +" " +
+					"AND name = '"+ projectName + "';";
+			rs = stmt.executeQuery(sql);
+			System.out.println(sql);
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close2(conn, stmt, rs);
+		}
+		return id;
+	}
+
+	/**
+	 * retrieve a project given project id
+	 *
+	 * @param projectId the project's id
+	 * @return the project class
+	 * @throws SQLException
+	 */
+	public Project getProjectInfo(int projectId) throws SQLException {
+		Project project = new Project();
+		Connection conn = null;
+		ResultSet rs = null;
+		Statement stmt = null;
+		try {
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String sql;
+			sql = "SELECT * FROM Project WHERE id = " + projectId + ";";
+			rs = stmt.executeQuery(sql);
+			System.out.println(sql);
+			if (rs.next()) {
+				project.setPrincipal(rs.getInt("idPrincipalMarker"));
+				project.setProjectName(rs.getString("name"));
+				project.setSubjectCode(rs.getString("subjectCode"));
+				project.setSubjectName(rs.getString("subjectName"));
+				project.setDescription(rs.getString("description"));
+				project.setDurationSec(rs.getInt("durationSec"));
+				project.setWarningSec(rs.getInt("warningSec"));
+			}
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close2(conn, stmt, rs);
+		}
+		return project;
+	}
+
+//	public ProjectInfo returnProjectDetails(int projectId) throws SQLException {
+//		ProjectInfo pj = new ProjectInfo();
+//		Connection conn = null;
+//		ResultSet rs = null;
+//		Statement stmt = null;
+//		try {
+//			conn = connectToDB(DB_URL, USER, PASS);
+//			stmt = conn.createStatement();
+//			String sql;
+//			sql = "SELECT * FROM Project";
+//			rs = stmt.executeQuery(sql);
+//			System.out.println(sql);
+//			while (rs.next()) {
+//				if (rs.getInt("idProject") == projectId) {
+//					pj.setUsername(rs.getString("primaryMail"));
+//					pj.setProjectName(rs.getString("name"));
+//					pj.setSubjectCode(rs.getString("subjectCode"));
+//					pj.setSubjectName(rs.getString("subjectName"));
+//					pj.setDescription(rs.getString("description"));
+//					pj.setAssistant(returnAssessors(projectId));
+//				} else {
+//					continue;
+//				}
+//			}
+//		} catch (SQLException se) {
+//			// JDBC faults
+//			se.printStackTrace();
+//		} finally {
+//			close2(conn, stmt, rs);
+//		}
+//		return pj;
+//	}
+
 
 	/**
 	 * delete the existing criterias of a project
@@ -618,31 +721,6 @@ public class MysqlFunction {
 		return result;
 	}
 
-	public boolean editGroupNumber(int projectId, String studentNumber,
-			int group) throws SQLException {
-		boolean result = false;
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			sql = "UPDATE Students SET " + "groupNumber = '" + group + "' "
-					+ "WHERE idProject= " + "'" + projectId
-					+ "' AND studentNumber= " + "'" + studentNumber + "';  ";
-			stmt.execute(sql);
-			System.out.println(sql);
-			result = true;
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close2(conn, stmt, rs);
-		}
-		return result;
-	}
-
 	public boolean deleteStudent(int projectId, String studentNumber)
 			throws SQLException {
 		boolean result = false;
@@ -667,8 +745,103 @@ public class MysqlFunction {
 		}
 		return result;
 	}
+	/**
+	 * assign a student to a project
+	 *
+	 * @param studentId  the student id
+	 * @param projectId  the project id
+	 * @return True = assigned successfully; False = fail to assign
+	 * @throws SQLException
+	 */
+	public boolean assignStudentToProject(int studentId, int projectId)
+			throws SQLException {
+		boolean assigned = false;
+		Connection conn = null;
+		Statement stmt = null;
+		String sql;
+		try {
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			sql = "INSERT INTO StudentInProject(idProject, idStudent)" +
+					"values(" + projectId + "," + studentId + ");";
+			stmt.execute(sql);
+			System.out.println(sql);
+			assigned = true;
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close1(conn, stmt);
+		}
+		return assigned;
+	}
 
-	public boolean assignStudentToProject (int studentId, int projectId, )
+
+	/**
+	 * edit the group number of students in a project
+	 *
+	 * @param studentId  the student id
+	 * @param projectId  the project id
+	 * @return True = edited successfully; False = fail to edit
+	 * @throws SQLException
+	 */
+	public boolean editGroupNumber(int projectId, int studentId, int group)
+			throws SQLException {
+		boolean edited = false;
+		Connection conn = null;
+		Statement stmt = null;
+		String sql;
+		try {
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			sql = "UPDATE Students SET group= " + group + " " +
+					"WHERE idProject= " + projectId + " " +
+					"AND idStudent= " + studentId + ";";
+			stmt.execute(sql);
+			System.out.println(sql);
+			edited = true;
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close1(conn, stmt);
+		}
+		return edited;
+	}
+
+	/**
+	 * assign a student to a project
+	 *
+	 * @param studentId  the student id
+	 * @param projectId  the project id
+	 * @return True = assigned successfully; False = fail to assign
+	 * @throws SQLException
+	 */
+	public boolean updateFinalResult(int projectId, int studentId, double score, String remark)
+			throws SQLException {
+		boolean updated = false;
+		Connection conn = null;
+		Statement stmt = null;
+		String sql;
+		try {
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			sql = "UPDATE Students SET " +
+					"finalScore= " + score + " " +
+					"finalRemark='" + remark + "' " +
+					"WHERE idProject= " + projectId + " " +
+					"AND idStudent= " + studentId + ";";
+			stmt.execute(sql);
+			System.out.println(sql);
+			updated = true;
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close1(conn, stmt);
+		}
+		return updated;
+	}
 
 	public boolean addOtherAssessor(int lecturerId, int projectId)
 			throws SQLException {
@@ -719,36 +892,6 @@ public class MysqlFunction {
 		return result;
 	}
 
-	public int getProjectId(String username, String projectName)
-			throws SQLException {
-		int id = 0;
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql;
-		try {
-//			int idLecturer = getLecturerId(username);
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			sql = "SELECT * FROM Project";
-			rs = stmt.executeQuery(sql);
-			System.out.println(sql);
-			while (rs.next()) {
-				if (rs.getString("primaryMail").equals(username)
-						&& rs.getString("name").equals(projectName)) {
-					id = rs.getInt("idProject");
-				} else {
-					continue;
-				}
-			}
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close2(conn, stmt, rs);
-		}
-		return id;
-	}
 
 	public int getLecturerId(String mail) throws SQLException {
 		Connection conn = null;
@@ -819,80 +962,6 @@ public class MysqlFunction {
 		return numList;
 	}
 
-	public ProjectInfo returnProjectInfo(int projectId) throws SQLException {
-		ProjectInfo pj = new ProjectInfo();
-		Connection conn = null;
-		ResultSet rs = null;
-		Statement stmt = null;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			String sql;
-			sql = "SELECT * FROM Project";
-			rs = stmt.executeQuery(sql);
-			System.out.println(sql);
-			while (rs.next()) {
-				if (rs.getInt("idProject") == projectId) {
-
-					pj.setUsername(rs.getString("primaryMail"));
-					pj.setProjectName(rs.getString("name"));
-					pj.setSubjectCode(rs.getString("subjectCode"));
-					pj.setSubjectName(rs.getString("subjectName"));
-					pj.setDescription(rs.getString("description"));
-					pj.setDurationMin(rs.getInt("durationMin"));
-					pj.setDurationSec(rs.getInt("durationSec"));
-					pj.setWarningMin(rs.getInt("warningMin"));
-					pj.setWarningSec(rs.getInt("warningSec"));
-					pj.setCriteria(returnCriteria(projectId));
-					pj.setStudentInfoList(returnStudents(projectId));
-					pj.setAssistant(returnAssessors(projectId));
-					pj.setCommentList(returnOnlyComment(projectId));
-
-				} else {
-					continue;
-				}
-			}
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close2(conn, stmt, rs);
-		}
-		return pj;
-	}
-
-	public ProjectInfo returnProjectDetails(int projectId) throws SQLException {
-		ProjectInfo pj = new ProjectInfo();
-		Connection conn = null;
-		ResultSet rs = null;
-		Statement stmt = null;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			String sql;
-			sql = "SELECT * FROM Project";
-			rs = stmt.executeQuery(sql);
-			System.out.println(sql);
-			while (rs.next()) {
-				if (rs.getInt("idProject") == projectId) {
-					pj.setUsername(rs.getString("primaryMail"));
-					pj.setProjectName(rs.getString("name"));
-					pj.setSubjectCode(rs.getString("subjectCode"));
-					pj.setSubjectName(rs.getString("subjectName"));
-					pj.setDescription(rs.getString("description"));
-					pj.setAssistant(returnAssessors(projectId));
-				} else {
-					continue;
-				}
-			}
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close2(conn, stmt, rs);
-		}
-		return pj;
-	}
 
 	public ArrayList<Criteria> returnOnlyComment(int projectId)
 			throws SQLException {

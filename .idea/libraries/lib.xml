@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/itextpdf-5.4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/fastjson-1.2.57.jar!/" />
+      <root url="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/pdfbox-2.0.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/jasper-6.0.29.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/activation-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/gson-2.8.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/servlet-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/mysql-connector-java-8.0.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/WebContent/WEB-INF/lib/javax.mail-1.6.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
