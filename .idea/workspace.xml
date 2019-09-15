@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b8555ef4-5d66-4bb1-8193-55badd03c558" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/RapidFeedback/Project.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/RapidFeedback_ver2.0.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +54,7 @@
       <option name="presentableId" value="Default" />
       <updated>1568327349999</updated>
       <workItem from="1568327353724" duration="10610000" />
-      <workItem from="1568465226176" duration="1619000" />
+      <workItem from="1568465226176" duration="1692000" />
     </task>
     <servers />
   </component>
