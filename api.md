@@ -12,7 +12,7 @@
 * response
 ```
 {
-    login_ACK: // if > 0 then login succeed/ -2 then fail
+    login_ACK: // >0 succeed/ 0: wrong password/ -1: no email address in database
     projectList:
     firstName:
     token:
@@ -299,5 +299,44 @@
     projectList: String
     token: String
     firstname: String
+}
+```
+
+-----
+### peojectList
+```
+{
+     "assistant ": [], // usernames
+     "commentList ": [],
+     "criteria ": [
+          {
+               "markIncrement ": "null",
+               "maximunMark ": 0,
+               "name ": "",
+               "subsectionList ": [],
+               "weighting ": 0
+          }
+     ],
+     "description ": " ",
+     "durationMin ": , // int
+     "durationSec ": , // int
+     "projectName ": "",
+     "studentInfo ": [
+          {
+               "email ": "",
+               "firstName ": "",
+               "group ": , //int
+               "middleName ": "",
+               "number ": "",
+               "sendEmail ": false, boolean
+               "surname ": "",
+               "totalMark ": -999 // int
+          }
+     ],
+     "subjectCode ": "",
+     "subjectName ": "",
+     "username ": "",
+     "warningMin ": 0, // int
+     "warningSec ": 0 // int
 }
 ```
