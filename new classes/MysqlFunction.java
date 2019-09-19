@@ -13,10 +13,10 @@ import java.util.List;
 public class MysqlFunction {
 
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/mydb?serverTimezone=UTC&useSSL=false";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/mydb?serverTimezone=UTC&useSSL=false";
 
 	static final String USER = "root";
-	static final String PASS = "alfa1994";
+	static final String PASS = "dhsx950321.";
 
 	/**
 	 * function: connect to the database
@@ -158,39 +158,46 @@ public class MysqlFunction {
 	/**
 	 * create a project in the server database
 	 * 
-	 * @param principalId the project founder's id
+	 * @param username    user's e-mail address
 	 * @param projectName the project name
 	 * @param subjectCode the subject code
 	 * @param subjectName the subject name
-	 * @param duration the presentation duration in second
-	 * @param warning  the time left in second before presentation ends
 	 * @param description the description of the project
-	 * @return the generated primary key in the sql database, if fails return 0
+	 * @return the generated primary key in the sql databse
 	 * @throws SQLException
 	 */
-	public int createProject(int principalId, String projectName, String subjectCode,
-							 String subjectName, int duration, int warning,
-							 String description)
+	public int createProject(String username, String projectName,
+			String subjectCode, String subjectName, String description)
 			throws SQLException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		String sql;
-//		int principalId;
+		int lecturerId = 0;
 		int pjId = 0;
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
-//			principalId = getLecturerId(principalName);
-			sql = "INSERT INTO Project(name, subjectName, subjectCode, durationSec, " +
-					"warningSec, description, idPrincipalMarker) "
-					+ "values( '" + projectName + "','" + subjectName + "','" + subjectCode + "',"
-					+ duration + "," + warning + ",'" + description + "'," + principalId + ");";
+			lecturerId = getLecturerId(username);
+			sql = "INSERT INTO Project(primaryMail, name, subjectCode, subjectName) "
+					+ "values( '" + username + "','" + projectName + "','"
+					+ subjectCode + "','" + subjectName + "' )";
 			stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 			System.out.println(sql);
 			rs = stmt.getGeneratedKeys();
 			if (rs.next()) {
 				pjId = rs.getInt(1);
+				sql = "INSERT INTO Lecturers_has_Project(idLecturers, idProject,If_Primary) "
+						+ "values( '" + lecturerId + "','" + pjId + "','" + 1
+						+ "' )";
+				stmt.executeUpdate(sql);
+				System.out.println(sql);
+			}
+			if (description != null) {
+				sql = "UPDATE Project SET Description = '" + description + "' "
+						+ "WHERE idProject = " + "'" + pjId + "' ";
+				stmt.executeUpdate(sql);
+				System.out.println(sql);
 			}
 		} catch (SQLException se) {
 			// JDBC faults
@@ -204,223 +211,121 @@ public class MysqlFunction {
 	/**
 	 * update the project information in the server database
 	 * 
-	 * @param projectId   the project's Id
+	 * @param username    the user's e-mail
 	 * @param projectName the updated project name
 	 * @param subjectCode the updated subject code
 	 * @param subjectName the updated subject name
-	 * @param duration the presentation duration in second
-	 * @param warning  the time left in second before presentation ends
 	 * @param description the updated project description
 	 * @return True = update successfully; False = fail to update
 	 * @throws SQLException
 	 */
-	public boolean updateProjectInfo(int projectId, String projectName, String subjectCode,
-									 String subjectName, int duration, int warning, String description)
+	public boolean updateProjectInfo(String username, String projectName,
+			String subjectCode, String subjectName, String description)
 			throws SQLException {
-		boolean updated = false;
+		boolean result = false;
 		Connection conn = null;
 		Statement stmt = null;
+		ResultSet rs = null;
 		String sql;
+		int pjId = 0;
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
-			sql = "UPDATE Project SET " +
-					"name = '" + projectName + "', " +
-					"subjectName = '" + subjectName + "', " +
-					"subjectCode = '" + subjectCode + "', " +
-					"durationSec = " + duration + ", " +
-					"warningSec = " + warning  + ", " +
-					"description = '" + description + "' " +
-					"WHERE id = " + projectId + ";";
+			pjId = getProjectId(username, projectName);
+			sql = "UPDATE Project SET primaryMail = '" + username
+					+ "', name = '" + projectName + "', subjectCode = '"
+					+ username + "', subjectName = '" + subjectName + "' "
+					+ "WHERE idProject = " + "'" + pjId + "' ";
 			stmt.executeUpdate(sql);
 			System.out.println(sql);
-			updated = true;
+			if (description != null) {
+				sql = "UPDATE Project SET Description = '" + description + "' "
+						+ "WHERE idProject = " + "'" + pjId + "' ";
+				stmt.executeUpdate(sql);
+				System.out.println(sql);
+			}
+			result = true;
 		} catch (SQLException se) {
 			// JDBC faults
 			se.printStackTrace();
 		} finally {
-			close1(conn, stmt);
+			close2(conn, stmt, rs);
 		}
-		return updated;
+		return result;
 	}
 
-//	/**
-//	 * update the time information of a project in the db
-//	 *
-//	 * @param pjId        the primary key in the Table project
-//	 * @param durationMin
-//	 * @param durationSec
-//	 * @param warningMin
-//	 * @param warningSec
-//	 * @return True = update successfully; False = fail to update
-//	 * @throws SQLException
-//	 */
-//	public boolean updateTimeInformation(int pjId, int durationMin,
-//			int durationSec, int warningMin, int warningSec)
-//			throws SQLException {
-//		Connection conn = null;
-//		Statement stmt = null;
-//		ResultSet rs = null;
-//		String sql;
-//		boolean result = false;
-//		try {
-//			conn = connectToDB(DB_URL, USER, PASS);
-//			stmt = conn.createStatement();
-//			sql = "UPDATE Project SET durationMin = '" + durationMin + "',  "
-//					+ "durationSec = '" + durationSec + "' "
-//					+ "WHERE idProject = " + "'" + pjId + "' ";
-//			stmt.executeUpdate(sql);
-//			System.out.println(sql);
-//
-//			sql = "UPDATE Project SET warningMin = '" + warningMin + "',  "
-//					+ "warningSec = '" + warningSec + "' "
-//					+ "WHERE idProject = " + "'" + pjId + "' ";
-//			stmt.executeUpdate(sql);
-//			System.out.println(sql);
-//			result = true;
-//
-//		} catch (SQLException se) {
-//			// JDBC faults
-//			se.printStackTrace();
-//		} finally {
-//			close2(conn, stmt, rs);
-//		}
-//		return result;
-//	}
+	/**
+	 * update the time information of a project in the db
+	 * 
+	 * @param pjId        the primary key in the Table project
+	 * @param durationMin
+	 * @param durationSec
+	 * @param warningMin
+	 * @param warningSec
+	 * @return True = update successfully; False = fail to update
+	 * @throws SQLException
+	 */
+	public boolean updateTimeInformation(int pjId, int durationMin,
+			int durationSec, int warningMin, int warningSec)
+			throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql;
+		boolean result = false;
+		try {
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			sql = "UPDATE Project SET durationMin = '" + durationMin + "',  "
+					+ "durationSec = '" + durationSec + "' "
+					+ "WHERE idProject = " + "'" + pjId + "' ";
+			stmt.executeUpdate(sql);
+			System.out.println(sql);
+
+			sql = "UPDATE Project SET warningMin = '" + warningMin + "',  "
+					+ "warningSec = '" + warningSec + "' "
+					+ "WHERE idProject = " + "'" + pjId + "' ";
+			stmt.executeUpdate(sql);
+			System.out.println(sql);
+			result = true;
+
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close2(conn, stmt, rs);
+		}
+		return result;
+	}
 
 	/**
 	 * delete a project from the db
 	 * 
-	 * @param projectId  the project's Id
+	 * @param pjId the primary key in the Table projec
 	 * @return True = delete successfully; False = faile to delete
 	 * @throws SQLException
 	 */
-	public boolean deleteProject(int projectId) throws SQLException {
-		boolean deleted = false;
+	public boolean deleteProject(int pjId) throws SQLException {
+		boolean result = false;
 		Connection conn = null;
 		Statement stmt = null;
+		ResultSet rs = null;
 		String sql;
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
-			sql = "DELETE FROM Project WHERE id =" + projectId + ";";
+			sql = "DELETE FROM Project WHERE idProject =" + pjId + ";";
 			stmt.executeUpdate(sql);
-			deleted = true;
+			result = true;
 			System.out.println(sql);
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close1(conn, stmt);
-		}
-		return deleted;
-	}
-
-	/**
-	 * get the project id given principal's id and project name
-	 *
-	 * @param principalId the project founder's id
-	 * @param projectName name of the project
-	 * @return the id found, if not return 0
-	 * @throws SQLException
-	 */
-	public int getProjectId(int principalId, String projectName)
-			throws SQLException {
-		int id = 0;
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		String sql;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			sql = "SELECT id FROM Project " +
-					"WHERE idPrincipalMarker ="+ principalId +" " +
-					"AND name = '"+ projectName + "';";
-			rs = stmt.executeQuery(sql);
-			System.out.println(sql);
-			if (rs.next()) {
-				id = rs.getInt(1);
-			}
 		} catch (SQLException se) {
 			// JDBC faults
 			se.printStackTrace();
 		} finally {
 			close2(conn, stmt, rs);
 		}
-		return id;
+		return result;
 	}
-
-	/**
-	 * retrieve a project given project id
-	 *
-	 * @param projectId the project's id
-	 * @return the project class
-	 * @throws SQLException
-	 */
-	public Project getProjectInfo(int projectId) throws SQLException {
-		Project project = new Project();
-		Connection conn = null;
-		ResultSet rs = null;
-		Statement stmt = null;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			String sql;
-			sql = "SELECT * FROM Project WHERE id = " + projectId + ";";
-			rs = stmt.executeQuery(sql);
-			System.out.println(sql);
-			if (rs.next()) {
-				project.setPrincipal(rs.getInt("idPrincipalMarker"));
-				project.setProjectName(rs.getString("name"));
-				project.setSubjectCode(rs.getString("subjectCode"));
-				project.setSubjectName(rs.getString("subjectName"));
-				project.setDescription(rs.getString("description"));
-				project.setDurationSec(rs.getInt("durationSec"));
-				project.setWarningSec(rs.getInt("warningSec"));
-			}
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close2(conn, stmt, rs);
-		}
-		return project;
-	}
-
-//	public ProjectInfo returnProjectDetails(int projectId) throws SQLException {
-//		ProjectInfo pj = new ProjectInfo();
-//		Connection conn = null;
-//		ResultSet rs = null;
-//		Statement stmt = null;
-//		try {
-//			conn = connectToDB(DB_URL, USER, PASS);
-//			stmt = conn.createStatement();
-//			String sql;
-//			sql = "SELECT * FROM Project";
-//			rs = stmt.executeQuery(sql);
-//			System.out.println(sql);
-//			while (rs.next()) {
-//				if (rs.getInt("idProject") == projectId) {
-//					pj.setUsername(rs.getString("primaryMail"));
-//					pj.setProjectName(rs.getString("name"));
-//					pj.setSubjectCode(rs.getString("subjectCode"));
-//					pj.setSubjectName(rs.getString("subjectName"));
-//					pj.setDescription(rs.getString("description"));
-//					pj.setAssistant(returnAssessors(projectId));
-//				} else {
-//					continue;
-//				}
-//			}
-//		} catch (SQLException se) {
-//			// JDBC faults
-//			se.printStackTrace();
-//		} finally {
-//			close2(conn, stmt, rs);
-//		}
-//		return pj;
-//	}
-
 
 	/**
 	 * delete the existing criterias of a project
@@ -439,7 +344,7 @@ public class MysqlFunction {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
 
-			sql = "DELETE FROM Criteria WHERE idProject = " + pjId + ";";
+			sql = "DELETE FROM ProjectSetCriteria WHERE idProject = " + pjId + ";";
 			stmt.executeUpdate(sql);
 			result = true;
 			System.out.println(sql);
@@ -460,6 +365,10 @@ public class MysqlFunction {
 	 * @return the primary key of the Criteria table generated by the system
 	 * @throws SQLException
 	 */
+	
+	
+	// Meng Ru 
+	// 这个是加的不需要打分只有comment的criteria 我没找到新数据库里是哪部分存这个东西
 	public int addOnlyComment(int pjId, Criteria c) throws SQLException {
 		int critId = 0;
 		Connection conn = null;
@@ -479,8 +388,8 @@ public class MysqlFunction {
 			if (rs.next()) {
 				critId = rs.getInt(1);
 			}
-			for (int i = 0; i < c.getSubsectionList().size(); i++) {
-				addSubSection(critId, c.getSubsectionList().get(i));
+			for (int i = 0; i < c.getFieldList().size(); i++) {
+				setFieldList(critId, c.getFieldList().get(i));
 			}
 
 		} catch (SQLException se) {
@@ -509,19 +418,22 @@ public class MysqlFunction {
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
-			sql = "INSERT INTO Criteria(name, idProject, weighting, maxMark, markIncrement, if_only_comment) "
+			sql = "INSERT INTO ProjectSetCriteria(name, idProject, weighting, maxMark, markIncrement) "
 					+ "values( '" + c.getName() + "','" + pjId + "','"
 					+ c.getWeighting() + "','" + c.getMaximunMark() + "','"
-					+ c.getMarkIncrement() + "','" + 0 + "' )";
+					+ c.getMarkIncrement() + "','" + "' )";
 			stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 			System.out.println(sql);
-
+			
+			
+			//Meng Ru
+			//改的是副本的表的话就要先加到criteria的表里 再generate key 然后再加到projectsetcriteria的表里
 			rs = stmt.getGeneratedKeys();
 			if (rs.next()) {
 				critId = rs.getInt(1);
 			}
-			for (int i = 0; i < c.getSubsectionList().size(); i++) {
-				addSubSection(critId, c.getSubsectionList().get(i));
+			for (int i = 0; i < c.getFieldList().size(); i++) {
+				addField(critId, c.getFieldList().get(i));
 			}
 
 		} catch (SQLException se) {
@@ -541,8 +453,8 @@ public class MysqlFunction {
 	 * @return the primary key of the Subsection table generated by the system
 	 * @throws SQLException
 	 */
-	public int addSubSection(int critId, SubSection ss) throws SQLException {
-		int ssId = 0;
+	public int addField(int critId, Field fd) throws SQLException {
+		int fdId = 0;
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -550,16 +462,16 @@ public class MysqlFunction {
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
-			sql = "INSERT INTO SubSection(name, idCriteria) " + "values( '"
-					+ ss.getName() + "','" + critId + "' )";
+			sql = "INSERT INTO Field(name, idCriteria) " + "values( '"
+					+ fd.getName() + "','" + critId + "' )";
 			stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 			System.out.println(sql);
 			rs = stmt.getGeneratedKeys();
 			if (rs.next()) {
-				ssId = rs.getInt(1);
+				fdId = rs.getInt(1);
 			}
-			for (int i = 0; i < ss.getShortTextList().size(); i++) {
-				addShortText(ssId, ss.getShortTextList().get(i));
+			for (int i = 0; i < fd.getCommentList().size(); i++) {
+				addComment(fdId, fd.getCommentList().get(i));
 			}
 		} catch (SQLException se) {
 			// JDBC faults
@@ -567,32 +479,32 @@ public class MysqlFunction {
 		} finally {
 			close2(conn, stmt, rs);
 		}
-		return ssId;
+		return fdId;
 	}
 
-	public int addShortText(int subsId, ShortText st) throws SQLException {
-		int stId = 0;
+	public int addComment(int FdId, Comment ct) throws SQLException {
+		int ctId = 0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
-			sql = "INSERT INTO ShortText(name, grade, idSubSection) "
+			sql = "INSERT INTO Comment(text, idField, type) "
 					+ "values(?,?,?)";
 			pstmt = conn.prepareStatement(sql,
 					PreparedStatement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, st.getName());
-			pstmt.setInt(2, st.getGrade());
-			pstmt.setInt(3, subsId);
+			pstmt.setString(1, ct.getText());
+			pstmt.setInt(2, FdId);
+			pstmt.setString(3, ct.getType());
 			pstmt.executeUpdate();
 			System.out.println(sql);
 			rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
-				stId = rs.getInt(1);
+				ctId = rs.getInt(1);
 			}
-			for (int i = 0; i < st.getLongtext().size(); i++) {
-				addLongText(stId, st.getLongtext().get(i));
+			for (int i = 0; i < ct.getEpComment().size(); i++) {
+				addEpComment(ctId, ct.getEpComment().get(i));
 			}
 		} catch (SQLException se) {
 			// JDBC faults
@@ -600,20 +512,20 @@ public class MysqlFunction {
 		} finally {
 			close3(conn, pstmt, rs);
 		}
-		return stId;
+		return ctId;
 	}
 
-	public void addLongText(int stId, String context) throws SQLException {
+	public void addEpComment(int ctId, String context) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		try {
 			conn = connectToDB(DB_URL, USER, PASS);
-			sql = "INSERT INTO `LongText`(context, idShortText) values(?,?)";
+			sql = "INSERT INTO `ExpandedComment`(text, idComment) values(?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, context);
-			pstmt.setInt(2, stId);
+			pstmt.setInt(2, ctId);
 			pstmt.executeUpdate();
 			System.out.println(sql);
 			pstmt.close();
@@ -653,22 +565,13 @@ public class MysqlFunction {
 		return result;
 	}
 
-
-	/**
-	 * add a student to the database
-	 *
-	 * @param critId a primary key in the Criteria Table
-	 * @param ss     a Subsection object
-	 * @return the primary key of the Subsection table generated by the system
-	 * @throws SQLException
-	 */
 	public boolean addStudentInfo(int projectId, String studentNumber,
-			String email, String firstName, String lastName, String middleName,
+			String mail, String firstName, String surName, String middleName,
 			int group) throws SQLException {
 		boolean result = false;
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs;
+		ResultSet rs = null;
 		String sql;
 		try {
 			double mark = -999.00;
@@ -721,6 +624,31 @@ public class MysqlFunction {
 		return result;
 	}
 
+	public boolean editGroupNumber(int projectId, String studentNumber,
+			int group) throws SQLException {
+		boolean result = false;
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			sql = "UPDATE Students SET " + "groupNumber = '" + group + "' "
+					+ "WHERE idProject= " + "'" + projectId
+					+ "' AND studentNumber= " + "'" + studentNumber + "';  ";
+			stmt.execute(sql);
+			System.out.println(sql);
+			result = true;
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close2(conn, stmt, rs);
+		}
+		return result;
+	}
+
 	public boolean deleteStudent(int projectId, String studentNumber)
 			throws SQLException {
 		boolean result = false;
@@ -744,103 +672,6 @@ public class MysqlFunction {
 			close2(conn, stmt, rs);
 		}
 		return result;
-	}
-	/**
-	 * assign a student to a project
-	 *
-	 * @param studentId  the student id
-	 * @param projectId  the project id
-	 * @return True = assigned successfully; False = fail to assign
-	 * @throws SQLException
-	 */
-	public boolean assignStudentToProject(int studentId, int projectId)
-			throws SQLException {
-		boolean assigned = false;
-		Connection conn = null;
-		Statement stmt = null;
-		String sql;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			sql = "INSERT INTO StudentInProject(idProject, idStudent)" +
-					"values(" + projectId + "," + studentId + ");";
-			stmt.execute(sql);
-			System.out.println(sql);
-			assigned = true;
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close1(conn, stmt);
-		}
-		return assigned;
-	}
-
-
-	/**
-	 * edit the group number of students in a project
-	 *
-	 * @param studentId  the student id
-	 * @param projectId  the project id
-	 * @return True = edited successfully; False = fail to edit
-	 * @throws SQLException
-	 */
-	public boolean editGroupNumber(int projectId, int studentId, int group)
-			throws SQLException {
-		boolean edited = false;
-		Connection conn = null;
-		Statement stmt = null;
-		String sql;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			sql = "UPDATE Students SET group= " + group + " " +
-					"WHERE idProject= " + projectId + " " +
-					"AND idStudent= " + studentId + ";";
-			stmt.execute(sql);
-			System.out.println(sql);
-			edited = true;
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close1(conn, stmt);
-		}
-		return edited;
-	}
-
-	/**
-	 * assign a student to a project
-	 *
-	 * @param studentId  the student id
-	 * @param projectId  the project id
-	 * @return True = assigned successfully; False = fail to assign
-	 * @throws SQLException
-	 */
-	public boolean updateFinalResult(int projectId, int studentId, double score, String remark)
-			throws SQLException {
-		boolean updated = false;
-		Connection conn = null;
-		Statement stmt = null;
-		String sql;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			sql = "UPDATE Students SET " +
-					"finalScore= " + score + " " +
-					"finalRemark='" + remark + "' " +
-					"WHERE idProject= " + projectId + " " +
-					"AND idStudent= " + studentId + ";";
-			stmt.execute(sql);
-			System.out.println(sql);
-			updated = true;
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-		} finally {
-			close1(conn, stmt);
-		}
-		return updated;
 	}
 
 	public boolean addOtherAssessor(int lecturerId, int projectId)
@@ -892,6 +723,36 @@ public class MysqlFunction {
 		return result;
 	}
 
+	public int getProjectId(String username, String projectName)
+			throws SQLException {
+		int id = 0;
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql;
+		try {
+//			int idLecturer = getLecturerId(username);
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			sql = "SELECT * FROM Project";
+			rs = stmt.executeQuery(sql);
+			System.out.println(sql);
+			while (rs.next()) {
+				if (rs.getString("primaryMail").equals(username)
+						&& rs.getString("name").equals(projectName)) {
+					id = rs.getInt("idProject");
+				} else {
+					continue;
+				}
+			}
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close2(conn, stmt, rs);
+		}
+		return id;
+	}
 
 	public int getLecturerId(String mail) throws SQLException {
 		Connection conn = null;
@@ -962,6 +823,80 @@ public class MysqlFunction {
 		return numList;
 	}
 
+	public ProjectInfo returnProjectInfo(int projectId) throws SQLException {
+		ProjectInfo pj = new ProjectInfo();
+		Connection conn = null;
+		ResultSet rs = null;
+		Statement stmt = null;
+		try {
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String sql;
+			sql = "SELECT * FROM Project";
+			rs = stmt.executeQuery(sql);
+			System.out.println(sql);
+			while (rs.next()) {
+				if (rs.getInt("idProject") == projectId) {
+
+					pj.setUsername(rs.getString("primaryMail"));
+					pj.setProjectName(rs.getString("name"));
+					pj.setSubjectCode(rs.getString("subjectCode"));
+					pj.setSubjectName(rs.getString("subjectName"));
+					pj.setDescription(rs.getString("description"));
+					pj.setDurationMin(rs.getInt("durationMin"));
+					pj.setDurationSec(rs.getInt("durationSec"));
+					pj.setWarningMin(rs.getInt("warningMin"));
+					pj.setWarningSec(rs.getInt("warningSec"));
+					pj.setCriteria(returnCriteria(projectId));
+					pj.setStudentInfoList(returnStudents(projectId));
+					pj.setAssistant(returnAssessors(projectId));
+					pj.setCommentList(returnOnlyComment(projectId));
+
+				} else {
+					continue;
+				}
+			}
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close2(conn, stmt, rs);
+		}
+		return pj;
+	}
+
+	public ProjectInfo returnProjectDetails(int projectId) throws SQLException {
+		ProjectInfo pj = new ProjectInfo();
+		Connection conn = null;
+		ResultSet rs = null;
+		Statement stmt = null;
+		try {
+			conn = connectToDB(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String sql;
+			sql = "SELECT * FROM Project";
+			rs = stmt.executeQuery(sql);
+			System.out.println(sql);
+			while (rs.next()) {
+				if (rs.getInt("idProject") == projectId) {
+					pj.setUsername(rs.getString("primaryMail"));
+					pj.setProjectName(rs.getString("name"));
+					pj.setSubjectCode(rs.getString("subjectCode"));
+					pj.setSubjectName(rs.getString("subjectName"));
+					pj.setDescription(rs.getString("description"));
+					pj.setAssistant(returnAssessors(projectId));
+				} else {
+					continue;
+				}
+			}
+		} catch (SQLException se) {
+			// JDBC faults
+			se.printStackTrace();
+		} finally {
+			close2(conn, stmt, rs);
+		}
+		return pj;
+	}
 
 	public ArrayList<Criteria> returnOnlyComment(int projectId)
 			throws SQLException {
@@ -1019,8 +954,8 @@ public class MysqlFunction {
 					cr.setWeighting(rs.getInt("weighting"));
 					cr.setMaximunMark(rs.getInt("maxMark"));
 					cr.setMarkIncrement(rs.getString("markIncrement"));
-					cr.setSubsectionList(
-							returnSubsection(rs.getInt("idCriteria")));
+					cr.setFieldList(
+							returnField(rs.getInt("idCriteria")));
 					criteriaList.add(cr);
 				} else {
 					continue;
@@ -1035,9 +970,9 @@ public class MysqlFunction {
 		return criteriaList;
 	}
 
-	private ArrayList<SubSection> returnSubsection(int idCriteria)
+	private ArrayList<Field> returnField(int idCriteria)
 			throws SQLException {
-		ArrayList<SubSection> subsectionList = new ArrayList<SubSection>();
+		ArrayList<Field> fieldList = new ArrayList<Field>();
 		Connection conn = null;
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -1045,16 +980,16 @@ public class MysqlFunction {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT * FROM SubSection";
+			sql = "SELECT * FROM Field";
 			rs = stmt.executeQuery(sql);
 			System.out.println(sql);
 			while (rs.next()) {
 				if (rs.getInt("idCriteria") == idCriteria) {
-					SubSection ss = new SubSection();
-					ss.setName(rs.getString("name"));
-					ss.setShortTextList(
-							returnShortText(rs.getInt("idSubSection")));
-					subsectionList.add(ss);
+					Field fd = new Field();
+					fd.setName(rs.getString("name"));
+					fd.setCommentList(
+							returnComment(rs.getInt("idSubSection")));
+					fieldList.add(fd);
 				} else {
 					continue;
 				}
@@ -1066,12 +1001,12 @@ public class MysqlFunction {
 			close2(conn, stmt, rs);
 		}
 
-		return subsectionList;
+		return fieldList;
 	}
 
-	private ArrayList<ShortText> returnShortText(int idSubSection)
+	private ArrayList<Comment> returnComment(int idField)
 			throws SQLException {
-		ArrayList<ShortText> shortTextList = new ArrayList<ShortText>();
+		ArrayList<Comment> commentList = new ArrayList<Comment>();
 		Connection conn = null;
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -1079,16 +1014,16 @@ public class MysqlFunction {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT * FROM ShortText";
+			sql = "SELECT * FROM Comment";
 			rs = stmt.executeQuery(sql);
 			System.out.println(sql);
 			while (rs.next()) {
-				if (rs.getInt("idSubSection") == idSubSection) {
-					ShortText st = new ShortText();
-					st.setGrade(rs.getInt("grade"));
-					st.setName(rs.getString("name"));
-					st.setLongtext(returnLongText(rs.getInt("idShortText")));
-					shortTextList.add(st);
+				if (rs.getInt("idField") == idField) {
+					Comment ct = new Comment();
+					ct.setType(rs.getString("type"));
+					ct.setText(rs.getString("text"));
+					ct.setEpComment(returnEpComment(rs.getInt("idComment")));
+					commentList.add(ct);
 				} else {
 					continue;
 				}
@@ -1102,9 +1037,9 @@ public class MysqlFunction {
 		return shortTextList;
 	}
 
-	private ArrayList<String> returnLongText(int idShortText)
+	private ArrayList<String> returnEpComment(int idComment)
 			throws SQLException {
-		ArrayList<String> longtext = new ArrayList<String>();
+		ArrayList<String> epComment = new ArrayList<String>();
 		Connection conn = null;
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -1112,12 +1047,12 @@ public class MysqlFunction {
 			conn = connectToDB(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT * FROM `LongText`";
+			sql = "SELECT * FROM `ExpendedCommnet`";
 			rs = stmt.executeQuery(sql);
 			System.out.println(sql);
 			while (rs.next()) {
-				if (rs.getInt("idShortText") == idShortText) {
-					longtext.add(rs.getString("context"));
+				if (rs.getInt("idComment") == idComment) {
+					epComment.add(rs.getString("context"));
 				} else {
 					continue;
 				}
@@ -1128,7 +1063,7 @@ public class MysqlFunction {
 		} finally {
 			close2(conn, stmt, rs);
 		}
-		return longtext;
+		return epComment;
 	}
 
 	public ArrayList<StudentInfo> returnStudents(int projectId)
@@ -1285,9 +1220,9 @@ public class MysqlFunction {
 			if (rs.next()) {
 				primaryKey = rs.getInt(1);
 			}
-			int i = cr.getSubsectionList().size();
+			int i = cr.getFieldList().size();
 			for (int j = 0; j < i; j++) {
-				addSpecificComments(primaryKey, cr.getSubsectionList().get(j),
+				addSpecificComments(primaryKey, cr.getFieldList().get(j),
 						studentName);
 			}
 			System.out.println("add successfully ! Grader: " + idlecturer
@@ -1301,7 +1236,7 @@ public class MysqlFunction {
 		return primaryKey;
 	}
 
-	public void addSpecificComments(int primaryKey, SubSection ss,
+	public void addSpecificComments(int primaryKey, Field ss,
 			String studentName) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -1313,9 +1248,9 @@ public class MysqlFunction {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, primaryKey);
 			pstmt.setString(2, ss.getName());
-			pstmt.setString(3, ss.getShortTextList().get(0).getName());
+			pstmt.setString(3, ss.getCommentList().get(0).getText());
 			pstmt.setString(4,
-					ss.getShortTextList().get(0).getLongtext().get(0));
+					ss.getCommentList().get(0).getEpComment().get(0));
 			pstmt.executeUpdate();
 			System.out.println(sql);
 		} catch (SQLException se) {
@@ -1460,9 +1395,9 @@ public class MysqlFunction {
 					Criteria cr = new Criteria();
 					cr.setName(str);
 					cr.setMaximunMark(maxmk);
-					ArrayList<SubSection> ssList = returnSpecificComment(
+					ArrayList<Field> ssList = returnSpecificComment(
 							markId);
-					cr.setSubsectionList(ssList);
+					cr.setFieldList(ssList);
 					markObject.getCriteriaList().add(cr);
 					markObject.getMarkList().add(mk);
 					System.out.println("get the mark of "
@@ -1475,9 +1410,9 @@ public class MysqlFunction {
 					int markId = rs.getInt("idMark");
 					Criteria cr = new Criteria();
 					cr.setName(str);
-					ArrayList<SubSection> ssList = returnSpecificComment(
+					ArrayList<Feild> ssList = returnSpecificComment(
 							markId);
-					cr.setSubsectionList(ssList);
+					cr.setFieldList(ssList);
 					markObject.getCommentList().add(cr);
 					System.out.println("get the mark of "
 							+ markObject.getCommentList().size()
@@ -1525,9 +1460,9 @@ public class MysqlFunction {
 		return comment;
 	}
 
-	private ArrayList<SubSection> returnSpecificComment(int markId)
+	private ArrayList<Field> returnSpecificComment(int markId)
 			throws SQLException {
-		ArrayList<SubSection> subsectionList = new ArrayList<SubSection>();
+		ArrayList<Field> fieldList = new ArrayList<Field>();
 		Connection conn = null;
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -1540,13 +1475,13 @@ public class MysqlFunction {
 			System.out.println(sql);
 			while (rs.next()) {
 				if (rs.getInt("idMark") == markId) {
-					SubSection ss = new SubSection();
-					ss.setName(rs.getString("subSection"));
-					ShortText st = new ShortText();
-					st.setName(rs.getString("shortText"));
-					st.getLongtext().add(rs.getString("comment"));
-					ss.getShortTextList().add(st);
-					subsectionList.add(ss);
+					Field fd = new Field();
+					fd.setName(rs.getString("subSection"));
+					Comment ct = new Comment();
+					ct.setText(rs.getString("shortText"));
+					ct.getEpComment().add(rs.getString("comment"));
+					fd.getCommentList().add(ct);
+					fieldList.add(fd);
 				} else {
 					continue;
 				}
@@ -1558,7 +1493,7 @@ public class MysqlFunction {
 			close2(conn, stmt, rs);
 		}
 
-		return subsectionList;
+		return fieldList;
 	}
 
 	public boolean deleteMark(int lecturerId, int studentId)
