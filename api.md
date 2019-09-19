@@ -301,3 +301,42 @@
     firstname: String
 }
 ```
+
+-----
+### peojectList
+```
+{
+     "assistant ": [], // usernames
+     "commentList ": [],
+     "criteria ": [
+          {
+               "markIncrement ": "null",
+               "maximunMark ": 0,
+               "name ": "",
+               "subsectionList ": [],
+               "weighting ": 0
+          }
+     ],
+     "description ": " ",
+     "durationMin ": , // int
+     "durationSec ": , // int
+     "projectName ": "",
+     "studentInfo ": [
+          {
+               "email ": "",
+               "firstName ": "",
+               "group ": , //int
+               "middleName ": "",
+               "number ": "",
+               "sendEmail ": false, boolean
+               "surname ": "",
+               "totalMark ": -999 // int
+          }
+     ],
+     "subjectCode ": "",
+     "subjectName ": "",
+     "username ": "",
+     "warningMin ": 0, // int
+     "warningSec ": 0 // int
+}
+```
