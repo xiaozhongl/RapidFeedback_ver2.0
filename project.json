@@ -12,10 +12,10 @@
     "markerList": [
         {
             "id": 1,
-            "email": "lxz@gmail.com",
-            "firstName": "Xiaozhong",
+            "email": "mark1@gmail.com",
+            "firstName": "Marker1",
             "middleName": "",
-            "lastName": "Liu"
+            "lastName": "Mr"
         }
     ],
     "criterionList": [
@@ -62,8 +62,8 @@
             "markerList":[
                 {
                     "id": 1,
-                    "email": "lxz@gmail.com",
-                    "fullName": "Xiaozhong Lii",
+                    "email": "marker1@gmail.com",
+                    "fullName": "Marker1 Mr",
                     "remark": "This sutdent did well",
                     "assessmentList": [
                         {
