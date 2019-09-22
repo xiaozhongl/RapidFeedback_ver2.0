@@ -1,0 +1,89 @@
+{
+    "id": 1,
+    "name": "Assignment",
+    "subjectName": "Distributed System",
+    "subjectCode": "COMP90016",
+    "durationMin": 5,
+    "durationSec": 30,
+    "warningMin": 1,
+    "warningSec": 0,
+    "principalId": 1,
+    "description": "This is COMP90016 2019 sem1 Assignemnt 1 presentation",
+    "markerList": [
+        {
+            "id": 1,
+            "email": "lxz@gmail.com",
+            "firstName": "Xiaozhong",
+            "middleName": "",
+            "lastName": "Liu"
+        }
+    ],
+    "criterionList": [
+        {
+            "id": 1,
+            "name": "Presentation Structure",
+            "weight": 0.25,
+            "maxMark": 10,
+            "markIncrement": "half",
+            "fieldList": [
+                {
+                    "id": 1,
+                    "name": "Introduction",
+                    "commentList":[
+                        {
+                            "id": 1,
+                            "text": "Good Introduction",
+                            "type": "POSITIVE",
+                            "expandedCommentList": [
+                                {
+                                    "id": 1,
+                                    "text": "You did a good job intruducing the topic"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "studentList": [
+        {
+            "id": 1,
+            "email": "lxz@gmail.com",
+            "firstName": "Xiaozhong",
+            "middleName": "",
+            "lastName": "Liu",
+            "studentNumber": 888888,
+            "groupNumber": null,
+            "finalScore": 85.5,
+            "finalRemark": "Final Remark",
+            "audioRemark": "url:",
+            "ifEmailed": 0,
+            "markerList":[
+                {
+                    "id": 1,
+                    "email": "lxz@gmail.com",
+                    "fullName": "Xiaozhong Lii",
+                    "remark": "This sutdent did well",
+                    "assessmentList": [
+                        {
+                            "criterionId": 1,
+                            "criterionName": "Presentation Structure",
+                            "weight": 0.25,
+                            "maxMark": 10,
+                            "score": 8,
+                            "selectedCommentList": [
+                                {
+                                    "fieldId": 1,
+                                    "fieldName": "Introduction",
+                                    "exCommentId": 1,
+                                    "exCommentName": "You did a good job intruducing the topic"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+  }
