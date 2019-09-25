@@ -1,0 +1,78 @@
+{
+    "projectList":{
+        "1":{
+            "name": "Assignment",
+            "subjectName": "Distributed System",
+            "subjectCode": "COMP90016",
+            "durationMin": 5,
+            "durationSec": 30,
+            "warningMin": 1,
+            "warningSec": 0,
+            "principalId": 1,
+            "description": "This is COMP90016 2019 sem1 Assignemnt 1 presentation",
+            "markerList": {
+                "1":{
+                    "email": "mark1@gmail.com",
+                    "firstName": "Marker1",
+                    "middleName": "",
+                    "lastName": "Mr"
+                }
+            },
+            "criterionList": {
+                "1":{
+                    "name": "Presentation Structure",
+                    "weight": 0.25,
+                    "maxMark": 10,
+                    "markIncrement": "half",
+                    "fieldList": {
+                        "1":{
+                            "name": "Introduction",
+                            "commentList":{
+                                "1":{
+                                    "text": "Good Introduction",
+                                    "type": "POSITIVE",
+                                    "expandedCommentList": {
+                                        "1":{
+                                            "text": "You did a good job intruducing the topic"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            },
+            "studentList": {
+                "1":{
+                    "email": "lxz@gmail.com",
+                    "firstName": "Xiaozhong",
+                    "middleName": "",
+                    "lastName": "Liu",
+                    "studentNumber": 888888,
+                    "groupNumber": null,
+                    "finalScore": 85.5,
+                    "finalRemark": "Final Remark",
+                    "audioRemark": "url:",
+                    "ifEmailed": 0,
+                    "markerList":{
+                        "1":{
+                            "remark": "This sutdent did well",
+                            "assessmentList": {
+                                "1":{
+                                    "criterionId": 1,
+                                    "score": 8,
+                                    "selectedCommentList": {
+                                        "1":{
+                                            "exCommentId": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
