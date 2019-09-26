@@ -67,24 +67,24 @@ public class DeleteStudentServlet extends HttpServlet {
 		// get values from received JSONObject
 		String token = jsonReceive.getString("token");
 		String projectName = jsonReceive.getString("projectName");
-		String studentID = jsonReceive.getString("studentID");
+		String studentNumber = jsonReceive.getString("studentNumber");
 
 		ServletContext servletContext = this.getServletContext();
 
 		/*
 		 * Attention: This method is to delete the student whose student number
-		 * is 'studentID': we assume the Student number cannot change and is the
+		 * is 'studentNumber': we assume the Student number cannot change and is the
 		 * primary key.
 		 */
 
 		boolean updateStudent_ACK;
 		// Mention:
 		// call the SQL method to delete the student whose student number
-		// is 'studentID' from a project whose name is 'projectName'.
+		// is 'studentNumber' from a project whose name is 'projectName'.
 		// return the 'true' or 'false' value to updateStudent_ACK
 		updateStudent_ACK = false;
 		updateStudent_ACK = deleteStudent(dbFunction, servletContext, token,
-				projectName, studentID);
+				projectName, studentNumber);
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();
@@ -97,31 +97,37 @@ public class DeleteStudentServlet extends HttpServlet {
 
 	/**
 	 * @Function deleteStudent
-	 * @Description call the db function to delete the student whose student
-	 *              number is 'studentID' from a project whose name is
-	 *              'projectName', and return deletion result.
+	 * @Description call the db function to find the studentId from studentNumber, then locate him
+	 *				 from a project whose name is  'projectName', and return deletion result.
 	 *
 	 * @param dbFunction
 	 * @param servletContext
 	 * @param token
 	 * @param projectName
-	 * @param studentID
+	 * @param studentNumber
 	 * @return result of deleting a student in DB
 	 */
 	private boolean deleteStudent(MysqlFunction dbFunction,
 			ServletContext servletContext, String token, String projectName,
-			String studentID) {
+			String studentNumber) {
 		boolean result = false;
 		InsideFunction inside = new InsideFunction(dbFunction);
 		String username = inside.token2user(servletContext, token);
 		try {
-			int pid = dbFunction.getProjectId(username, projectName);
-			if (pid <= 0) {
+			int principalId = dbFunction.getMarkerId(username);
+			int projectId = dbFunction.getProjectId(principalId, projectName);	
+			if (projectId <= 0) {
 				throw new Exception(
 						"Exception: Cannot find the project, or the user "
 								+ "is not the primary assessor of the project.");
 			}
-			result = dbFunction.deleteStudent(pid, studentID);
+			//check if student is there in the project
+			int studentId = dbFunction.getStudentId(studentNumber);			
+			if (dbFunction.ifStudentInProject(projectId, student.getId()) <= 0) {
+				throw new Exception(
+						"Exception: Cannot find the studentNumber, make sure it's correct.");
+			}
+			result = dbFunction.deleteStudentFromProject(projectId, studentId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

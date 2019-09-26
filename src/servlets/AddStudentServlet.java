@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.RapidFeedback.InsideFunction;
 import com.RapidFeedback.MysqlFunction;
-import com.RapidFeedback.StudentInfo;
+import com.RapidFeedback.Student;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
@@ -69,7 +69,7 @@ public class AddStudentServlet extends HttpServlet {
 		String token = jsonReceive.getString("token");
 		String projectName = jsonReceive.getString("projectName");
 		//the studentID here is the studentNumber.
-		String studentID = jsonReceive.getString("studentID");
+		String studentNumber = jsonReceive.getString("studentNumber");
 		String firstName = jsonReceive.getString("firstName");
 		String middleName = jsonReceive.getString("middleName");
 		String lastName = jsonReceive.getString("lastName");
@@ -77,16 +77,15 @@ public class AddStudentServlet extends HttpServlet {
 
 		ServletContext servletContext = this.getServletContext();
 
-		StudentInfo student = new StudentInfo(studentID, firstName, middleName,
-				lastName, email);
 
 		boolean updateStudent_ACK;
 		updateStudent_ACK = false;
 		// Mention:
 		// call the SQL method to add a student
 		// return the 'true' or 'false' value to updateStudent_ACK
-		updateStudent_ACK = inside.addStudent(servletContext, token,
-				projectName, student);
+		updateStudent_ACK = addStudent(servletContext, token,
+				projectName, studentNumber, firstName, middleName, lastName, email);
+
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();
@@ -97,4 +96,50 @@ public class AddStudentServlet extends HttpServlet {
 		output.print(jsonSend.toJSONString());
 	}
 
+
+	/**
+	 * @Function addStudent
+	 * @Description An inner function of this servlet, which contains two steps:
+	 *			first step is to add a new student to STUDENT TABLE according to given information,
+	 *			second step is to get the studentId from STUDENT TABLE and add him to the project
+	 *
+	 * @param servletContext
+	 * @param token
+	 * @param projectName
+	 * @param studentNumber
+	 * @param firstName
+	 * @param middleName
+	 * @param lastName
+	 * @param email
+	 * @return the result of inserting a student into a DB.
+	 */
+	public boolean addStudent(ServletContext servletContext, String token,
+			String projectName, String studentNumber, String firstName, String middleName,
+					String lastName, String email) {
+		String username = this.token2user(servletContext, token);
+		InsideFunction inside = new InsideFunction(dbFunction);
+		boolean result = false;
+		try {
+			int principalId = dbFunction.getMarkerId(username);		
+			if (username != null && projectName != null) {
+				int projectId = dbFunction.getProjectId(principalId, projectName);
+				if (projectId <= 0) {
+					throw new Exception(
+							"Exception: Cannot find the project.");
+				}else {
+					result = dbFunction.addStudent(studentNumber, firstName,
+							lastName, middleName,
+							email);
+					return result;
+				}
+			int studentId = dbFunction.getStudentId(studentNumber);	
+			result = dbFunction.addStudentToProject(studentId, projectId);
+			} else {
+				return result;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

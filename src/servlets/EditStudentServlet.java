@@ -15,7 +15,7 @@ import org.apache.jasper.tagplugins.jstl.core.Out;
 
 import com.RapidFeedback.InsideFunction;
 import com.RapidFeedback.MysqlFunction;
-import com.RapidFeedback.StudentInfo;
+import com.RapidFeedback.Student;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
@@ -24,7 +24,7 @@ import com.alibaba.fastjson.JSONObject;
  * @Description Servlet to edit a student information in a specific project in
  *              DB.
  *
- * @author Jingxian Hu, Zhongke Tan
+ * @author Jingxian Hu, Zhongke Tan, Xizhi Geng
  */
 @WebServlet("/EditStudentServlet")
 public class EditStudentServlet extends HttpServlet {
@@ -55,7 +55,7 @@ public class EditStudentServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		MysqlFunction dbFunction = new MysqlFunction();
-
+		InsideFunction inside = new InsideFunction(dbFunction);
 		// get JSONObject from request
 		JSONObject jsonReceive;
 		BufferedReader reader = request.getReader();
@@ -69,16 +69,17 @@ public class EditStudentServlet extends HttpServlet {
 		// get values from received JSONObject
 		String token = jsonReceive.getString("token");
 		String projectName = jsonReceive.getString("projectName");
-		// studentID here is the student number.
-		String studentID = jsonReceive.getString("studentID");
+		String studentNumber = jsonReceive.getString("studentNumber");
 		String firstName = jsonReceive.getString("firstName");
 		String middleName = jsonReceive.getString("middleName");
 		String lastName = jsonReceive.getString("lastName");
 		String email = jsonReceive.getString("email");
 
 		ServletContext servletContext = this.getServletContext();
-		StudentInfo student = new StudentInfo(studentID, firstName, middleName,
-				lastName, email);
+		
+		int studentId = dbFunction.getStudentId(studentNumber);
+		Student student = new Student(studentId, firstName, middleName,
+				lastName, email, studentNumber);
 
 		/*
 		 * Attention: This method is very like 'AddStudent' method, the
@@ -107,9 +108,7 @@ public class EditStudentServlet extends HttpServlet {
 
 	/**
 	 * @Function editStudent
-	 * @Description call the SQL method to edit the student's information whose
-	 *              student number is 'studentID' and in the project called
-	 *              'projectName'.
+	 * @Description call the SQL method to edit the student's information 
 	 *
 	 * @param dbFunction
 	 * @param servletContext
@@ -120,25 +119,25 @@ public class EditStudentServlet extends HttpServlet {
 	 */
 	private boolean editStudent(MysqlFunction dbFunction,
 			ServletContext servletContext, String token, String projectName,
-			StudentInfo student) {
+			Student student) {
 		boolean result = false;
 		InsideFunction inside = new InsideFunction(dbFunction);
 		String username = inside.token2user(servletContext, token);
 		try {
+			int principalId = dbFunction.getMarkerId(username);
 			if (username != null && projectName != null) {
-				int pid = dbFunction.getProjectId(username, projectName);
-				if (pid <= 0) {
+				int projectId = dbFunction.getProjectId(principalId, projectName);
+				if (projectId <= 0) {
 					throw new Exception(
 							"Exception: Cannot find the project, or the user "
 									+ "is not the primary assessor of the project.");
 				}
 				// only when student exists in this project, the student can be
 				// edited.
-				if (dbFunction.ifStudentExists(pid, student.getNumber()) > 0) {
-					result = dbFunction.editStudentInfo(pid,
-							student.getNumber(), student.getEmail(),
-							student.getFirstName(), student.getSurname(),
-							student.getMiddleName(), student.getGroup());
+				if (dbFunction.ifStudentInProject(projectId, student.getId()) > 0) {
+					result = dbFunction.updateStudent(student.getId(), student.getStudentNumber(),
+						student.getFirstName(), student.getLastName(),
+						student.getMiddleName(), student.getEmail());
 					return result;
 				} else {
 					return result;

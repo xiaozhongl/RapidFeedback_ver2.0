@@ -20,7 +20,7 @@ import com.alibaba.fastjson.JSONObject;
  * @ClassName DeleteProjectServlet
  * @Description servlet to delete project from the DB.
  *
- * @author Jingxian Hu, Zhongke Tan 
+ * @author Jingxian Hu, Zhongke Tan, Xizhi Geng 
 */
 @WebServlet("/DeleteProjectServlet")
 public class DeleteProjectServlet extends HttpServlet {
@@ -75,13 +75,14 @@ public class DeleteProjectServlet extends HttpServlet {
 		boolean updateProject_ACK = false;
 		String username = inside.token2user(servletContext, token);
 		try {
-			int pjId = dbFunction.getProjectId(username, projectName);
-			if (pjId <= 0) {
+			int principalId = dbFunction.getMarkerId(username);
+			int projectId = dbFunction.getProjectId(principalId, projectName);	
+			if (projectId <= 0) {
 				throw new Exception(
 						"Exception: Cannot find the project, or the user"
 						+ " is not the primary assessor of the project.");
 			}
-			updateProject_ACK = dbFunction.deleteProject(pjId);
+			updateProject_ACK = dbFunction.deleteProject(projectId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
