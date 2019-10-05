@@ -7,28 +7,21 @@ package com.RapidFeedback;
  */
 public class SelectedComment {
     private int fieldId;            // one of the primary key, user cannot change it here
-    private String fieldName;       // consistent with fieldId, user cannot change it here
     private int exCommentId;        // user can select expanded comment here
-    private String exCommentName;   // front end should update this name when updating exCommentId
+
 
     /**
      * description: if expanded comment has not been set, exCommentId will be zero
      * and exCommentName will be null
      */
-    public SelectedComment (int fieldId, String fieldName, int exCommentId, String exCommentName){
+    public SelectedComment (int fieldId, int exCommentId){
         this.fieldId = fieldId;
-        this.fieldName = fieldName;
         this.exCommentId = exCommentId;
-        this.exCommentName = exCommentName;
     }
 
     // get only
     public int getFieldId(){
         return this.fieldId;
-    }
-
-    public String getFieldName(){
-        return this.fieldName;
     }
 
 
@@ -39,14 +32,6 @@ public class SelectedComment {
 
     public void setExCommentId(int exCommentId){
         this.exCommentId = exCommentId;
-    }
-
-    public String getExCommentName(){
-        return  this.exCommentName;
-    }
-
-    public void setExCommentName(String exCommentName){
-        this.exCommentName = exCommentName;
     }
 
 }

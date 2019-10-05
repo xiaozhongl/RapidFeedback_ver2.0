@@ -1,5 +1,6 @@
 package com.RapidFeedback;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -9,18 +10,18 @@ import java.util.ArrayList;
  */
 public class Criterion {
 
-    private int id;
+    private int id;     // set to 0 when add criterion, include when update criterion
     private String name;
-    private int weight;
-    private int maxMark;
-    private String markIncrement; // "full" means 1; "half" means 1/2; "quarter" means 1/4;
+    private double weight;
+    private double maximumMark;
+    private double markIncrement; // either be 0.25, 0.5 or 1
     private ArrayList<Field> fieldList = new ArrayList<Field>();
 
-    public Criterion(int id, String name, int weight, int maxMark, String markIncrement){
+    public Criterion(int id, String name, double weight, double maximumMark, double markIncrement){
         this.id = id;
         this.name = name;
         this.weight = weight;
-        this.maxMark = maxMark;
+        this.maximumMark = maximumMark;
         this.markIncrement = markIncrement;
     }
 
@@ -36,27 +37,27 @@ public class Criterion {
         this.name = name;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return this.weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
-    public int getMaxMark() {
-        return this.maxMark;
+    public double getMaximumMark() {
+        return this.maximumMark;
     }
 
-    public void setMaxMark(int maxMark) {
-        this.maxMark = maxMark;
+    public void setMaximumMark(double maximumMark) {
+        this.maximumMark = maximumMark;
     }
 
-    public String getMarkIncrement() {
+    public double getMarkIncrement() {
         return this.markIncrement;
     }
 
-    public void setMarkIncrement(String markIncrement) {
+    public void setMarkIncrement(double markIncrement) {
         this.markIncrement = markIncrement;
     }
 
@@ -67,4 +68,5 @@ public class Criterion {
     public void setFieldList(ArrayList<Field> fieldList) {
         this.fieldList = fieldList;
     }
+
 }

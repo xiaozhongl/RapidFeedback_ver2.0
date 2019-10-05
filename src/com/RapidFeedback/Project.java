@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * create by: Xiaozhong Liu
- * description: a class that stores information from Project table in database
+ * description: a class used for RETURN PROJECTS responds from BACK END
  * create time: 2019/9/22 5:36 PM
  */
 public class Project{
@@ -15,26 +15,26 @@ public class Project{
     private String subjectCode;
     private int durationSec;
     private int warningSec;
-    private int principalId;        // this is the current user's id
+    private int principalId;
     private String description;
     private int durationMin;
     private int warningMin;
 
     private ArrayList<Marker> markerList = new ArrayList<Marker>();
     private ArrayList<Criterion> criterionList = new ArrayList<Criterion>();
-    private ArrayList<Student> studentList = new ArrayList<Student>();
+    private ArrayList<ProjectStudent> studentList = new ArrayList<ProjectStudent>();
 
 
     public Project (int id, String name, String subjectName, String subjectCode,
-                    int duration, int warning, int principalId, String description){
+                    int durationSec, int warningSec, int principalId, String description){
         this.id = id;
         this.name = name;
         this.subjectName = subjectName;
         this.subjectCode = subjectCode;
-        this.durationMin = duration / 60;
-        this.durationSec = duration % 60;
-        this.warningMin = warning / 60;
-        this.warningSec = warning % 60;
+        this.durationMin = durationSec / 60;
+        this.durationSec = durationSec % 60;
+        this.warningMin = warningSec / 60;
+        this.warningSec = warningSec % 60;
         this.principalId = principalId;
         this.description = description;
     }
@@ -47,7 +47,6 @@ public class Project{
     public int getPrincipalId(){
         return this.principalId;
     }
-
 
     // get and set
     public String getName() {
@@ -130,11 +129,11 @@ public class Project{
         this.criterionList = criterionList;
     }
 
-    public ArrayList<Student> getStudentList(){
+    public ArrayList<ProjectStudent> getStudentList(){
         return this.studentList;
     }
 
-    public void setStudentList(ArrayList<Student> studentList){
+    public void setStudentList(ArrayList<ProjectStudent> studentList){
         this.studentList = studentList;
     }
 

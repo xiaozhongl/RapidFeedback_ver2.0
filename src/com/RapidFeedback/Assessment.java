@@ -1,6 +1,8 @@
 package com.RapidFeedback;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+
 
 /**
  * create by: Xiaozhong Liu
@@ -9,13 +11,11 @@ import java.util.ArrayList;
  */
 public class Assessment {
     private int criterionId;    // one of the primary key, user cannot change it here
-    private String criterionName;  // consistent with criterionId, user cannot change it here
     private double score;       // score for a criterion
     private ArrayList<SelectedComment> selectedCommentList = new ArrayList<SelectedComment>();
 
-    public Assessment(int criterionId, String criterionName, double score){
+    public Assessment (int criterionId, double score){
         this.criterionId = criterionId;
-        this.criterionName = criterionName;
         this.score = score;
     }
 
@@ -24,12 +24,8 @@ public class Assessment {
         return this.criterionId;
     }
 
-    public String getCriterionName(){
-        return this.criterionName;
-    }
 
-
-    //get and set
+    // get and set
     public double getScore(){
         return this.score;
     }
@@ -46,3 +42,4 @@ public class Assessment {
         this.selectedCommentList = selectedCommentList;
     }
 }
+
