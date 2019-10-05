@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -13,19 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.RapidFeedback.Criteria;
 import com.RapidFeedback.InsideFunction;
-import com.RapidFeedback.Mark;
 import com.RapidFeedback.MysqlFunction;
 import com.RapidFeedback.PDFUtil;
-import com.RapidFeedback.ProjectInfo;
 import com.RapidFeedback.SendMail;
-import com.RapidFeedback.StudentInfo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-
-import java.io.IOException;
-import org.apache.pdfbox.pdmodel.PDDocument;
 
 /**
  * @ClassName SendEmailServlet

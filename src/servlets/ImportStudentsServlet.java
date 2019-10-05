@@ -17,11 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.RapidFeedback.InsideFunction;
 import com.RapidFeedback.MysqlFunction;
-import com.RapidFeedback.StudentInfo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.mysql.cj.xdevapi.AddResult;
-import com.mysql.cj.xdevapi.Result;
 
 /**
  * @ClassName ImportStudentsServlet

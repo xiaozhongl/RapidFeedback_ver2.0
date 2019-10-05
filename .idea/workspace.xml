@@ -2,21 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="596f2964-cfa5-49e2-a8bb-f6a040ac5630" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/RapidFeedback/ProjectStudent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/RapidFeedback/Remark.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RapidFeedback_ver2.0.iml" beforeDir="false" afterPath="$PROJECT_DIR$/RapidFeedback_ver2.0.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newDatabase.mwb" beforeDir="false" afterPath="$PROJECT_DIR$/newDatabase.mwb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/Assessment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/Assessment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/Criterion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/Criterion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/MarkerForAStudent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/Project.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/SelectedComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/SelectedComment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/Criteria.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/Mark.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/ProjectInfo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/ShortText.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/StudentInfo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/SubSection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlets/AddStudentServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlets/AddStudentServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlets/CriteriaListServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlets/CriteriaListServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlets/EditStudentServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlets/EditStudentServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlets/GetMarkServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlets/GetMarkServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlets/GroupStudentServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlets/GroupStudentServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlets/ImportStudentsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlets/ImportStudentsServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlets/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlets/MarkServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlets/MarkServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/servlets/SendEmailServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/servlets/SendEmailServlet.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,6 +72,7 @@
       <updated>1570082570749</updated>
       <workItem from="1570082575701" duration="34167000" />
       <workItem from="1570237269306" duration="3674000" />
+      <workItem from="1570241997394" duration="166000" />
     </task>
     <servers />
   </component>
