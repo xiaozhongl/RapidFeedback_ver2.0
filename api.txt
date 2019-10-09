@@ -8,7 +8,6 @@ POST
 response
 {
     login_ACK: // >0 id :succeed/ 0: wrong password/ -1: no email address in database/ -2: db/servlet error
-    
     projectList: ArrayList<Project>
     firstName:  String
     token:  String
