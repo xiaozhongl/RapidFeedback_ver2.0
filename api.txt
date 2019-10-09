@@ -37,12 +37,8 @@ To add student into a project
 POST
 {
     token: String
-    projectName: String
-    studentNumber: String
-    firstName: String
-    middleName: String
-    lastName:
-    email: // student's email
+    projectId:
+    studentList:   // ArrayList<Student>
 }
 response
 {
