@@ -7,10 +7,9 @@ POST
 }
 response
 {
-    login_ACK: // >0 succeed/ 0: wrong password/ -1: no email address in database
+    login_ACK: // >0 id :succeed/ 0: wrong password/ -1: no email address in database/ -2: db/servlet error
     projectList: ArrayList<Project>
     firstName:  String
-    id: int       <!-- new added -->
     token:  String
 }
 
@@ -39,7 +38,7 @@ POST
 {
     token: String
     projectName: String
-    studentID: String
+    studentNumber: String
     firstName: String
     middleName: String
     lastName:
