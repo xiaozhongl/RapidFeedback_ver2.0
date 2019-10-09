@@ -210,13 +210,14 @@ request to edit the project time setting info
 POST
 {
     token: String
-    id:
+    id:	// when create a project, set id to 0; when update, give project id
     projectName: String
     subjectName: String
     subjectCode: String
     description: String
     durationSec: int
     warningSec: int
+    principalId: int
 }
 response
 {
