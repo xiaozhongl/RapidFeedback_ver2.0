@@ -120,21 +120,6 @@ response
     updateStudent_ACK: boolean
 }
 
-/GetMarkServlet
-POST
-{
-    token: String
-    projectId: 
-    studentNumberList: String
-    primaryEmail: String
-}
-response
-{
-    getMark_ACK: boolean
-    markList: String // if getMark_ACK == true
-    otherComments: String // if studentNumberList.size > 1
-}
-
 
 
 /InviteAssessorServlet
