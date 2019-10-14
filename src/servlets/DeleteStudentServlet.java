@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.RapidFeedback.InsideFunction;
 import com.RapidFeedback.MysqlFunction;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -66,25 +65,17 @@ public class DeleteStudentServlet extends HttpServlet {
 
 		// get values from received JSONObject
 		String token = jsonReceive.getString("token");
-		String projectName = jsonReceive.getString("projectName");
-		String studentID = jsonReceive.getString("studentID");
+		String projectId = jsonReceive.getString("projectId");
+		String studentId = jsonReceive.getString("studentId");
 
 		ServletContext servletContext = this.getServletContext();
-
-		/*
-		 * Attention: This method is to delete the student whose student number
-		 * is 'studentID': we assume the Student number cannot change and is the
-		 * primary key.
-		 */
 
 		boolean updateStudent_ACK;
 		// Mention:
 		// call the SQL method to delete the student whose student number
-		// is 'studentID' from a project whose name is 'projectName'.
+		// is 'studentNumber' from a project whose name is 'projectName'.
 		// return the 'true' or 'false' value to updateStudent_ACK
-		updateStudent_ACK = false;
-		updateStudent_ACK = deleteStudent(dbFunction, servletContext, token,
-				projectName, studentID);
+		updateStudent_ACK = dbFunction.deleteStudentFromProject(projectId, studentId);
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();
@@ -95,37 +86,5 @@ public class DeleteStudentServlet extends HttpServlet {
 		output.print(jsonSend.toJSONString());
 	}
 
-	/**
-	 * @Function deleteStudent
-	 * @Description call the db function to delete the student whose student
-	 *              number is 'studentID' from a project whose name is
-	 *              'projectName', and return deletion result.
-	 *
-	 * @param dbFunction
-	 * @param servletContext
-	 * @param token
-	 * @param projectName
-	 * @param studentID
-	 * @return result of deleting a student in DB
-	 */
-	private boolean deleteStudent(MysqlFunction dbFunction,
-			ServletContext servletContext, String token, String projectName,
-			String studentID) {
-		boolean result = false;
-		InsideFunction inside = new InsideFunction(dbFunction);
-		String username = inside.token2user(servletContext, token);
-		try {
-			int pid = dbFunction.getProjectId(username, projectName);
-			if (pid <= 0) {
-				throw new Exception(
-						"Exception: Cannot find the project, or the user "
-								+ "is not the primary assessor of the project.");
-			}
-			result = dbFunction.deleteStudent(pid, studentID);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
 
 }

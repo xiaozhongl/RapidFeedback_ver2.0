@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.RapidFeedback.InsideFunction;
 import com.RapidFeedback.MysqlFunction;
+import com.RapidFeedback.ProjectStudent;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
@@ -21,7 +21,7 @@ import com.alibaba.fastjson.JSONObject;
  * @Description This servlet is to change the group number of a student in the
  *              DB.
  *
- * @author Jingxian Hu, Zhongke Tan
+ * @author Jingxian Hu, Zhongke Tan, Xizhi Geng
  */
 @WebServlet("/GroupStudentServlet")
 public class GroupStudentServlet extends HttpServlet {
@@ -52,7 +52,7 @@ public class GroupStudentServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		MysqlFunction dbFunction = new MysqlFunction();
-		InsideFunction inside = new InsideFunction(dbFunction);
+
 
 		// get JSONObject from request
 		JSONObject jsonReceive;
@@ -66,32 +66,20 @@ public class GroupStudentServlet extends HttpServlet {
 
 		// get values from received JSONObject
 		String token = jsonReceive.getString("token");
-		String projectName = jsonReceive.getString("projectName");
-		String studentID = jsonReceive.getString("studentID");
+		String projectId = jsonReceive.getString("projectId");
+		String studentId = jsonReceive.getString("studentId");
 		int group = jsonReceive.getInteger("group");
 
 		ServletContext servletContext = this.getServletContext();
 
 		boolean updateGroupNumber_ACK;
 		// Mention:
-		// call the SQL method to edit the student groupID whose student number
-		// is
-		// 'studentID'.
+		// call the SQL method to edit the student groupID of a certain studentNumber
+		// get the group from FE
+		// get the projectId from FE
+		// get the studentId from FE
 		// return the 'true' or 'false' value to updateStudent_ACK
-		String username = inside.token2user(servletContext, token);
-		try {
-			int projectId = dbFunction.getProjectId(username, projectName);
-			if (projectId <= 0) {
-				throw new Exception(
-						"Exception: Cannot find the project, or the user is "
-								+ "not the primary assessor of the project.");
-			}
-			updateGroupNumber_ACK = dbFunction.editGroupNumber(projectId,
-					studentID, group);
-		} catch (Exception e) {
-			updateGroupNumber_ACK = false;
-			e.printStackTrace();
-		}
+		updateGroupNumber_ACK = dbFunction.updateGroupNumber(projectId,	studentId, group);
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();

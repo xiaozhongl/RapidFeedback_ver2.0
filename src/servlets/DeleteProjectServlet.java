@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.RapidFeedback.InsideFunction;
 import com.RapidFeedback.MysqlFunction;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -20,7 +19,7 @@ import com.alibaba.fastjson.JSONObject;
  * @ClassName DeleteProjectServlet
  * @Description servlet to delete project from the DB.
  *
- * @author Jingxian Hu, Zhongke Tan 
+ * @author Jingxian Hu, Zhongke Tan, Xizhi Geng 
 */
 @WebServlet("/DeleteProjectServlet")
 public class DeleteProjectServlet extends HttpServlet {
@@ -51,7 +50,6 @@ public class DeleteProjectServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		MysqlFunction dbFunction = new MysqlFunction();
-		InsideFunction inside = new InsideFunction(dbFunction);
 
 		// get JSONObject from request
 		JSONObject jsonReceive;
@@ -65,26 +63,15 @@ public class DeleteProjectServlet extends HttpServlet {
 
 		// get values from received JSONObject
 		String token = jsonReceive.getString("token");
-		String projectName = jsonReceive.getString("projectName");
+		String projectId = jsonReceive.getString("projectId");
 
 		ServletContext servletContext = this.getServletContext();
 
+		boolean updateProject_ACK;
 		// Mention:
-		// call the SQL method to delete the project whose name is projectName
+		// call the SQL method to delete the project according to projectId
 		// give the result "true" or "false" to updateProject_ACK
-		boolean updateProject_ACK = false;
-		String username = inside.token2user(servletContext, token);
-		try {
-			int pjId = dbFunction.getProjectId(username, projectName);
-			if (pjId <= 0) {
-				throw new Exception(
-						"Exception: Cannot find the project, or the user"
-						+ " is not the primary assessor of the project.");
-			}
-			updateProject_ACK = dbFunction.deleteProject(pjId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		updateProject_ACK = dbFunction.deleteProject(projectId);
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();
