@@ -2,7 +2,6 @@ package com.RapidFeedback;
 
 import com.mysql.cj.conf.ConnectionPropertiesTransform;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +21,6 @@ public class MysqlFunction {
 	static final String USER = "root";
 	static final String PASS = "alfa1994";
 
-	public enum CommentType {POSITIVE, NEGATIVE, NEUTRAL}
 
 	/**
 	 * function: connect to the database
@@ -32,12 +30,12 @@ public class MysqlFunction {
 	 * @param password the db root password
 	 * @return the Connection to the db
 	 */
-	public Connection connectToDB(String url, String userName,
+	private Connection connectToDB(String url, String userName,
 			String password) {
 		Connection conn = null;
 		try {
 			// Register JDBC driver
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(JDBC_DRIVER);
 			// Connect the DB
 			// System.out.println("Connecting the Database...");
 			conn = DriverManager.getConnection(url, userName, password);
@@ -52,6 +50,7 @@ public class MysqlFunction {
 	}
 
 
+
 	/**
 	 * Login
 	 * 
@@ -61,36 +60,73 @@ public class MysqlFunction {
 	 *         reutrn -1, wrong password return 0
 	 * @throws SQLException
 	 */
-	public int logIn(String mail, String password) throws SQLException {
-		int num = -1;
-		Connection conn = null;
-		ResultSet rs = null;
-		Statement stmt = null;
-		try {
-			conn = connectToDB(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			String sql;
-			sql = "SELECT * FROM Lecturers";
-			rs = stmt.executeQuery(sql);
-			System.out.println(sql);
-			while (rs.next()) {
-				if (rs.getString("email").equals(mail)) {
-					if (rs.getString("password").equals(password)) {
-						num = rs.getInt("idLecturers");
-					} else {
-						num = 0;
-					}
-				}
-			}
-		} catch (SQLException se) {
-			// JDBC faults
-			se.printStackTrace();
-			num = -2;
-		} finally {
-			disconnectDB(conn, stmt, rs);
-		}
-		return num;
-	}
+//	public int logIn(String mail, String password) throws SQLException {
+//		int num = -1;
+//		Connection conn = null;
+//		ResultSet rs = null;
+//		Statement stmt = null;
+//		try {
+//			conn = connectToDB(DB_URL, USER, PASS);
+//			stmt = conn.createStatement();
+//			String sql;
+//			sql = "SELECT * FROM Lecturers";
+//			rs = stmt.executeQuery(sql);
+//			System.out.println(sql);
+//			while (rs.next()) {
+//				if (rs.getString("email").equals(mail)) {
+//					if (rs.getString("password").equals(password)) {
+//						num = rs.getInt("idLecturers");
+//					} else {
+//						num = 0;
+//					}
+//				}
+//			}
+//		} catch (SQLException se) {
+//			// JDBC faults
+//			se.printStackTrace();
+//			num = -2;
+//		} finally {
+//			disconnectDB(conn, stmt, rs);
+//		}
+//		return num;
+//	}
+
+
+	/**
+	 * create by: Xiaozhong Liu
+	 * description: user login function
+	 * create time: 2019/10/17 10:37 PM
+	 *
+	 * @Param: email
+	 * @Param: password
+	 * @return markerId if login information correction; -1 if email does not exist; 0 if password is wrong
+	 */
+    public int logIn(String email, String password){
+        int ack = -1;
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet rs;
+        try {
+            connection  = connectToDB(DB_URL, USER, PASS);
+            statement = connection.prepareStatement("SELECT * FROM Marker WHERE email = ?");
+            statement.setString(1, email);
+            rs = statement.executeQuery();
+
+            if (rs.next()) {
+                if (rs.getString("password").equals(password)) {
+                    ack = rs.getInt("id");
+                } else {
+                    ack = 0;
+                }
+            }
+            connection.close();
+        } catch (SQLException se) {
+            // JDBC faults
+            se.printStackTrace();
+            ack = -2;
+        }
+        return ack;
+    }
 
 	/**
 	 * create by: Xiaozhong Liu
@@ -147,47 +183,35 @@ public class MysqlFunction {
 	}
 
 
-
-//
-//	/**
-//	 * create by: Xiaozhong Liu
-//	 * description: get a marker's full name given the marker's id
-//	 * create time: 2019/9/16 10:44 PM
-//	 *
-//	 * @Param: id
-//	 * @return the marker's full name if found; or null if not found
-//	 */
-//	public String getMarkerName(int id) throws SQLException {
-//		String name = null;
-//		Connection conn = null;
-//		ResultSet rs = null;
-//		Statement stmt = null;
-//		String sql;
-//		try {
-//			conn = connectToDB(DB_URL, USER, PASS);
-//			stmt = conn.createStatement();
-//			sql = "SELECT * FROM Marker WHERE id= "+ id +";";
-//			rs = stmt.executeQuery(sql);
-//			System.out.println(sql);
-//			if (rs.next()){
-//				if (rs.getString("middleName") == null){
-//					name = rs.getString("firstName") + " "
-//							+ rs.getString("lastName");
-//				}
-//				else{
-//					name = rs.getString("firstName") + " "
-//							+ rs.getString("middleName") + " "
-//							+ rs.getString("lastName");
-//				}
-//			}
-//		} catch (SQLException se) {
-//			// JDBC faults
-//			se.printStackTrace();
-//		} finally {
-//			disconnectDB(conn, stmt, rs);
-//		}
-//		return name;
-//	}
+	/**
+	 * create by: Xiaozhong Liu
+	 * description: get a marker's full name given the marker's id
+	 * create time: 2019/9/16 10:44 PM
+	 *
+	 * @Param: id
+	 * @return the marker's full name if found; or null if not found
+	 */
+	public String getMarkerName(int id){
+		String name = null;
+		Connection connection;
+		ResultSet rs;
+		PreparedStatement statement;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement("SELECT * FROM Marker WHERE id= ?");
+			statement.setInt(1, id);
+			rs = statement.executeQuery();
+			if (rs.next()){
+				name = rs.getString("firstName") + " "
+						+ rs.getString("middleName") + " "
+						+ rs.getString("lastName");
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return name;
+	}
 
 	/**
 	 * create by: Xiaozhong Liu
@@ -212,7 +236,7 @@ public class MysqlFunction {
 		int id = 0;
 		try {
 			connection = connectToDB(DB_URL, USER, PASS);
-			sql = "INSERT INTO Project(name, subjectName, subjectCode, durationSec, " +
+			sql = "INSERT INTO Project(`name`, subjectName, subjectCode, durationSec, " +
 					"warningSec, description, idPrincipal) "
 					+ "values(?,?,?,?,?,?,?);";
 			statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -258,7 +282,7 @@ public class MysqlFunction {
 		try {
 			connection = connectToDB(DB_URL, USER, PASS);
 			statement = connection.prepareStatement(
-					"UPDATE Project SET name = ?, subjectName = ?, subjectCode = ?, " +
+					"UPDATE Project SET `name` = ?, subjectName = ?, subjectCode = ?, " +
 							"durationSec = ?, warningSec = ?, description = ? WHERE id = ?");
 
 			statement.setString(1, projectName);
@@ -267,6 +291,7 @@ public class MysqlFunction {
 			statement.setInt(4, duration);
 			statement.setInt(5, warning);
 			statement.setString(6, description);
+			statement.setInt(7, projectId);
 			statement.executeUpdate();
 			updated = true;
 			connection.close();
@@ -291,7 +316,7 @@ public class MysqlFunction {
 		PreparedStatement statement;
 		try {
 			connection = connectToDB(DB_URL, USER, PASS);
-			statement = connection.prepareStatement("UPDATE Project SET idPrincipal = 0 WHERE id = ?");
+			statement = connection.prepareStatement("UPDATE Project SET idPrincipal = 1 WHERE id = ?");
 			statement.setInt(1, projectId);
 			statement.executeUpdate();
 			deleted = true;
@@ -391,7 +416,7 @@ public class MysqlFunction {
 					"INSERT INTO Student(firstName, middleName, lastName, studentNumber, email) " +
 							"VALUES (?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
 			addToProject = connection.prepareStatement(
-					"INSERT INTO StudentInProject(idProject, idStudent, group, finalScore, " +
+					"INSERT INTO StudentInProject(idProject, idStudent, `group`, finalScore, " +
 							"finalRemark, ifEmailed, idAudio) values(?,?,?,?,?,?,?)");
 
 			// create student
@@ -455,7 +480,7 @@ public class MysqlFunction {
 			statement.setDouble(4, -1);
 			statement.setString(5, "");
 			statement.setInt(6, 0);
-			statement.setInt(7, 0);
+			statement.setInt(7, 1);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 //			e.printStackTrace();
@@ -517,6 +542,9 @@ public class MysqlFunction {
 	 */
 	public boolean updateStudent(int studentId, int studentNumber, String firstName, String lastName,
 								 String middleName, String email){
+		if (studentId == 1){
+			return false;
+		}
 		boolean updated = false;
 		Connection connection;
 		PreparedStatement statement;
@@ -559,7 +587,7 @@ public class MysqlFunction {
 		try {
 			connection = connectToDB(DB_URL, USER, PASS);
 			statement = connection.prepareStatement(
-					"UPDATE StudentInProject SET group = ? WHERE idProject = ? AND idStudent= ?");
+					"UPDATE StudentInProject SET `group` = ? WHERE idProject = ? AND idStudent= ?");
 			statement.setInt(1, group);
 			statement.setInt(2, projectId);
 			statement.setInt(3, studentId);
@@ -586,7 +614,7 @@ public class MysqlFunction {
 	 * @return True if update successfully; False if fail to update
 	 */
 	public boolean updateFinalResult(int projectId, int studentId, double finalScore,
-						String finalRemark, int audioId) {
+						String finalRemark,int audioId) {
 		boolean updated = false;
 		Connection connection;
 		PreparedStatement statement;
@@ -597,9 +625,10 @@ public class MysqlFunction {
 							"WHERE idProject = ? AND idStudent = ?");
 			statement.setDouble(1, finalScore);
 			statement.setString(2, finalRemark);
-			statement.setInt(3, audioId);
-			statement.setInt(4, projectId);
-			statement.setInt(5, studentId);
+			statement.setInt(3, 1);
+			statement.setInt(4, audioId);
+			statement.setInt(5, projectId);
+			statement.setInt(6, studentId);
 			statement.executeUpdate();
 			updated = true;
 			connection.close();
@@ -779,13 +808,13 @@ public class MysqlFunction {
 
 			// prepare statements
 			statements.add(connection.prepareStatement(
-					"INSERT INTO Criterion(name) values(?)",
+					"INSERT INTO Criterion(`name`) values(?)",
 					PreparedStatement.RETURN_GENERATED_KEYS));
 			statements.add(connection.prepareStatement(
-					"INSERT INTO Field(name, idCriterion) values(?,?)",
+					"INSERT INTO Field(`name`, idCriterion) values(?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS));
 			statements.add(connection.prepareStatement(
-					"INSERT INTO Comment(text, idField, type) values(?,?,?)",
+					"INSERT INTO Comment(text, idField, `type`) values(?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS));
 			statements.add(connection.prepareStatement(
 					"INSERT INTO ExpandedComment(text, idComment) values(?,?)",
@@ -1093,7 +1122,7 @@ public class MysqlFunction {
 			// prepare statements
 			statements.put("getProjects", connection.prepareStatement(
 					"SELECT * FROM MarkerInProject RIGHT JOIN Project " +
-							"ON MarkerInProject.idCriterion = Project.id " +
+							"ON MarkerInProject.idProject = Project.id " +
 							"WHERE idMarker = ? OR idPrincipal = ?"));
 			statements.put("getCriteria", connection.prepareStatement(
 					"SELECT * FROM ProjectCriterion INNER JOIN Criterion " +
@@ -1312,6 +1341,42 @@ public class MysqlFunction {
 		}
 		return criterionList;
 	}
+
+//	public ArrayList<Criterion> getCriterionList(int projectId){
+////		"SELECT * FROM ProjectCriterion INNER JOIN Criterion ON ProjectCriterion.idCriterion = Criterion.id " +
+////				"WHERE idProject = ?"
+//		Connection connection;
+//		HashMap<String,PreparedStatement> statements = new HashMap<String,PreparedStatement>();
+//		ArrayList<Criterion> criterionList = new ArrayList<Criterion>();
+//		PreparedStatement getCriteria = statements.get("getCriteria");
+//		ResultSet rs;
+//		Criterion criterion;
+//
+//		try {
+//			connection = connectToDB(DB_URL, USER, PASS);
+//			statements.put("getFields", connection.prepareStatement(
+//					"SELECT * FROM Field WHERE idCriterion = ?"));
+//			statements.put("getComments", connection.prepareStatement(
+//					"SELECT * FROM Comment WHERE idField = ?"));
+//			statements.put("getExComments", connection.prepareStatement(
+//					"SELECT * FROM ExpandedComment WHERE idComment = ?"));
+//			getCriteria.setInt(1, projectId);
+//			rs = getCriteria.executeQuery();
+//			while (rs.next()) {
+//				criterion = new Criterion(
+//						rs.getInt("id"),
+//						rs.getString("name"),
+//						rs.getDouble("weight"),
+//						rs.getDouble("maximumMark"),
+//						rs.getDouble("markIncrement"));
+//				criterion.setFieldList(getFieldList(statements, rs.getInt("id")));
+//				criterionList.add(criterion);
+//			}
+//		} catch (SQLException e) {
+//			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+//		}
+//		return criterionList;
+//	}
 
 	private ArrayList<Field> getFieldList(HashMap<String,PreparedStatement> statements, int criterionId){
 //		"SELECT * FROM Field WHERE idCriterion = ?")
@@ -1595,39 +1660,4 @@ public class MysqlFunction {
 //		return numList;
 //	}
 
-	public void disconnectDB(Connection conn, Statement stmt) throws SQLException {
-		try {
-			if (stmt != null) {
-				stmt.close();
-//				stmt = null;
-			}
-		} finally {
-			if (conn != null) {
-				conn.close();
-//				conn = null;
-			}
-		}
-	}
-
-	public void disconnectDB(Connection conn, Statement stmt, ResultSet rs)
-			throws SQLException {
-		try {
-			if (rs != null) {
-				rs.close();
-//				rs = null;
-			}
-		} finally {
-			try {
-				if (stmt != null) {
-					stmt.close();
-//					stmt = null;
-				}
-			} finally {
-				if (conn != null) {
-					conn.close();
-//					conn = null;
-				}
-			}
-		}
-	}
 }
