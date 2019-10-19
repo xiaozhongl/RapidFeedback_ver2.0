@@ -127,7 +127,7 @@ POST
 }
 response
 {
-    invite_ACK: boolean
+    invite_ACK: int
     markerName: 
 }
 DELETE
