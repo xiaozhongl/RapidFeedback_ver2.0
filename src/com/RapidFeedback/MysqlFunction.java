@@ -22,14 +22,8 @@ public class MysqlFunction {
 	static final String PASS = "alfa1994";
 
 
-	/**
-	 * function: connect to the database
-	 *
-	 * @param url      url address of the databse
-	 * @param userName the db root username
-	 * @param password the db root password
-	 * @return the Connection to the db
-	 */
+
+
 	private Connection connectToDB(String url, String userName,
 			String password) {
 		Connection conn = null;
@@ -51,15 +45,6 @@ public class MysqlFunction {
 
 
 
-	/**
-	 * Login
-	 * 
-	 * @param mail     e-mail address the user used for login
-	 * @param password password used for login
-	 * @return successful login return lecturer's id, wrong e-mail address
-	 *         reutrn -1, wrong password return 0
-	 * @throws SQLException
-	 */
 //	public int logIn(String mail, String password) throws SQLException {
 //		int num = -1;
 //		Connection conn = null;
@@ -211,6 +196,50 @@ public class MysqlFunction {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
 		}
 		return name;
+	}
+
+	public boolean isMarkerInProject(int markerId, int projectId){
+		boolean isMarkerInProject = false;
+		Connection connection;
+		ResultSet rs;
+		PreparedStatement statement;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement(
+					"SELECT * FROM MarkerInProject WHERE idMarker = ? AND idProject = ?");
+			statement.setInt(1, markerId);
+			statement.setInt(2, projectId);
+			rs = statement.executeQuery();
+			if (rs.next()){
+				isMarkerInProject = true;
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return isMarkerInProject;
+	}
+
+	public boolean isMarkerPrincipal(int markerId, int projectId){
+		boolean isMarkerPrincipal = false;
+		Connection connection;
+		ResultSet rs;
+		PreparedStatement statement;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement(
+					"SELECT * FROM Project WHERE idPrincipal = ? AND id = ?");
+			statement.setInt(1, markerId);
+			statement.setInt(2, projectId);
+			rs = statement.executeQuery();
+			if (rs.next()){
+				isMarkerPrincipal = true;
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return isMarkerPrincipal;
 	}
 
 	/**
@@ -431,11 +460,13 @@ public class MysqlFunction {
 				if (!addStudentToProject(statements, projectId, id)) {
 					// could only due to database error
 					ack = -1 * student.getStudentNumber();
+					connection.close();
 					return ack;
 				}
 			}
 			else{
 				ack = -1 * student.getStudentNumber();
+				connection.close();
 				return ack;
 			}
 			ack = 1;
@@ -490,11 +521,13 @@ public class MysqlFunction {
 					if (!addStudentToProject(statements, projectId, id)) {
 						// could only due to database error
 						ack = -1 * student.getStudentNumber();
+						connection.close();
 						return ack;
 					}
 				}
 				else{
 					ack = -1 * student.getStudentNumber();
+					connection.close();
 					return ack;
 				}
 			}
@@ -906,6 +939,7 @@ public class MysqlFunction {
 			// add criteria
 			for (Criterion criterion : criterionList) {
 				if (addCriterion(statements, criterion, projectId) == 0) {
+					connection.close();
 					return false;
 				}
 			}
@@ -1261,7 +1295,7 @@ public class MysqlFunction {
 	}
 
 	private ArrayList<Marker> getMarkerList(HashMap<String,PreparedStatement> statements,
-														  int projectId) throws SQLException{
+											int projectId) throws SQLException {
 //		"SELECT * FROM MarkerInProject INNER JOIN Marker " +
 //				"ON MarkerInProject.idMarker = Marker.id " +
 //				"WHERE idProject = ?"
@@ -1270,34 +1304,33 @@ public class MysqlFunction {
 		PreparedStatement getPrincipal = statements.get("getPrincipal");
 		ResultSet rs;
 		Marker marker;
-//		try {
-		statement.setInt(1, projectId);
-		rs = statement.executeQuery();
-		while (rs.next()) {
-			marker = new Marker(
-					rs.getInt("id"),
-					rs.getString("email"),
-					rs.getString("firstName"),
-					rs.getString("middleName"),
-					rs.getString("lastName"));
-			markerList.add(marker);
-		}
+		try {
+			statement.setInt(1, projectId);
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				marker = new Marker(
+						rs.getInt("id"),
+						rs.getString("email"),
+						rs.getString("firstName"),
+						rs.getString("middleName"),
+						rs.getString("lastName"));
+				markerList.add(marker);
+			}
 
-		getPrincipal.setInt(1, projectId);
-		rs = getPrincipal.executeQuery();
-		if (rs.next()) {
-			marker = new Marker(
-					rs.getInt("idPrincipal"),
-					rs.getString("email"),
-					rs.getString("firstName"),
-					rs.getString("middleName"),
-					rs.getString("lastName"));
-			markerList.add(marker);
+			getPrincipal.setInt(1, projectId);
+			rs = getPrincipal.executeQuery();
+			if (rs.next()) {
+				marker = new Marker(
+						rs.getInt("idPrincipal"),
+						rs.getString("email"),
+						rs.getString("firstName"),
+						rs.getString("middleName"),
+						rs.getString("lastName"));
+				markerList.add(marker);
+			}
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
 		}
-
-//		} catch (SQLException e) {
-//			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-//		}
 		return markerList;
 	}
 

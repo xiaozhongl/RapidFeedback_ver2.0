@@ -72,8 +72,8 @@ public class Test {
 //        System.out.println(db.addStudent("xz2",
 //                "", "l", 456, "",7));
 
-        projects = db.getProjectList(4);
-        System.out.println(JSON.toJSONString(projects));
+//        projects = db.getProjectList(4);
+//        System.out.println(JSON.toJSONString(projects));
 
 //        List<Project> projectList = new Gson().fromJson(JSON.toJSONString(projects),
 //                new TypeToken<List<Project>>(){}.getType());
@@ -90,6 +90,12 @@ public class Test {
 //        System.out.println(db.addProjectMarker(6,7));
 //        System.out.println(db.deleteProjectMarker(2,2));
 //        System.out.println(db.sentMail(7, 15));
-    }
 
+//        ArrayList<Student> slist = new ArrayList<>();
+//        slist.add(new Student(1,"firstName", "", "lastName", "email", 111));
+//        slist.add(new Student(2,"firstName", "", "lastName", "email", 222));
+//        System.out.println(JSON.toJSONString(slist));
+        System.out.println(db.isMarkerPrincipal(4,7));
+
+    }
 }
