@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Marker` (
   `lastName` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
+INSERT INTO Marker(email, password, firstName, middleName, lastName) values('admin','master','','','');
 
 -- -----------------------------------------------------
 -- Table `mydb`.`Project`
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Project` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
+INSERT INTO Project(`name`, subjectName, subjectCode, durationSec, warningSec, description, idPrincipal) values('admin','','',1,1,'',1);
 
 -- -----------------------------------------------------
 -- Table `mydb`.`Student`
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Student` (
   `email` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
+INSERT INTO Student (firstName, middleName, lastName, studentNumber, email) VALUES ('admin','','', 0,'');
 
 -- -----------------------------------------------------
 -- Table `mydb`.`Criterion`
@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Audio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
+INSERT INTO Audio() values ();
 
 -- -----------------------------------------------------
 -- Table `mydb`.`StudentInProject`
