@@ -127,7 +127,7 @@ POST
 }
 response
 {
-    invite_ACK: boolean
+    invite_ACK: int
     markerName: 
 }
 DELETE
@@ -202,6 +202,7 @@ POST
 response
 {
     updateProject_ACK: boolean
+    projectId: int
 }
 
 /SyncProjectListServlet

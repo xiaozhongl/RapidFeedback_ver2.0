@@ -25,12 +25,16 @@ public class Criterion {
         this.markIncrement = markIncrement;
     }
 
-    public int getId(){
-        return this.id;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -38,7 +42,7 @@ public class Criterion {
     }
 
     public double getWeight() {
-        return this.weight;
+        return weight;
     }
 
     public void setWeight(double weight) {
@@ -46,7 +50,7 @@ public class Criterion {
     }
 
     public double getMaximumMark() {
-        return this.maximumMark;
+        return maximumMark;
     }
 
     public void setMaximumMark(double maximumMark) {
@@ -54,7 +58,7 @@ public class Criterion {
     }
 
     public double getMarkIncrement() {
-        return this.markIncrement;
+        return markIncrement;
     }
 
     public void setMarkIncrement(double markIncrement) {
@@ -62,7 +66,7 @@ public class Criterion {
     }
 
     public ArrayList<Field> getFieldList() {
-        return this.fieldList;
+        return fieldList;
     }
 
     public void setFieldList(ArrayList<Field> fieldList) {

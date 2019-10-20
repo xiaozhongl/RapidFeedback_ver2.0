@@ -1,13 +1,19 @@
 package com.RapidFeedback;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
     public static void main(String[] args) {
         MysqlFunction db = new MysqlFunction();
-        int id = -5;
-        boolean bool = false;
+        int id;
+        boolean bool;
         String name;
         ArrayList<Project> projects;
 //        id = db.addMarker("garbage", "", "", "", "");
@@ -26,8 +32,10 @@ public class Test {
 //                600, 60, "This is");
 
 //        bool = db.deleteProject(3);
-//        id = db.addStudent("Xiao", "", "l", 77770,
-//                "lxz0960@gmail.com", 2);
+//        id = db.addStudent("Xiao", "", "l", 789,
+//                "lxz0960@gmail.com", 7);
+//        System.out.println(db.addStudent("Xiao", "", "l", 789,
+//                "lxz0960@gmail.com", 7));
 
 //
 //        bool = db.updateStudent(2, 111111, "1", "2", "3", "");
@@ -42,14 +50,46 @@ public class Test {
 //        name = db.getMarkerName(6);
 //        bool = db.getMarkerName();
 
-        projects = db.getProjectList(2);
-
 //        bool = db.deleteProjectMarker(4,2);
 
+//        projects = db.getProjectList(2);
+//        System.out.println(JSON.toJSONString(projects));
 
+
+
+//        List<Project> projectList = new Gson().fromJson(JSON.toJSONString(projects),
+//                new TypeToken<List<Project>>(){}.getType());
+//        ArrayList<Project> arrayList ;
+//        arrayList = new ArrayList();
+//        arrayList.addAll(projectList);
+//        Project project1 = arrayList.get(0);
+////        Criterion criterion = project1.getCriterionList().get(0);
+////        System.out.println(JSON.toJSONString(criterion));
+//
+//        System.out.println(db.addCriteria(project1.getCriterionList(), 6));
+
+//        System.out.println(db.deleteCriteria(7));
+//        System.out.println(db.addStudent("xz2",
+//                "", "l", 456, "",7));
+
+        projects = db.getProjectList(4);
         System.out.println(JSON.toJSONString(projects));
-//        System.out.println(bool);
-    }
 
+//        List<Project> projectList = new Gson().fromJson(JSON.toJSONString(projects),
+//                new TypeToken<List<Project>>(){}.getType());
+//        ArrayList<Project> arrayList ;
+//        arrayList = new ArrayList();
+//        arrayList.addAll(projectList);
+//        Project project1 = arrayList.get(1);
+//        ProjectStudent student = project1.getStudentList().get(0);
+//        Remark remark = student.getRemarkList().get(0);
+////        System.out.println(JSON.toJSONString(remark));
+//        System.out.println(db.addResult(remark, 7, 17));
+
+
+//        System.out.println(db.addProjectMarker(6,7));
+//        System.out.println(db.deleteProjectMarker(2,2));
+//        System.out.println(db.sentMail(7, 15));
+    }
 
 }

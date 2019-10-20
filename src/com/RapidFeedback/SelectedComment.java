@@ -6,6 +6,8 @@ package com.RapidFeedback;
  * create time: 2019/9/22 11:21 AM
  */
 public class SelectedComment {
+
+
     private int fieldId;            // one of the primary key, user cannot change it here
     private int exCommentId;        // user can select expanded comment here
 
@@ -19,18 +21,20 @@ public class SelectedComment {
         this.exCommentId = exCommentId;
     }
 
-    // get only
-    public int getFieldId(){
-        return this.fieldId;
+
+    public int getFieldId() {
+        return fieldId;
     }
 
-
-    // get and set
-    public int getExCommentId(){
-        return this.exCommentId;
+    public void setFieldId(int fieldId) {
+        this.fieldId = fieldId;
     }
 
-    public void setExCommentId(int exCommentId){
+    public int getExCommentId() {
+        return exCommentId;
+    }
+
+    public void setExCommentId(int exCommentId) {
         this.exCommentId = exCommentId;
     }
 

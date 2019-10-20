@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class Field {
 
+
     private int id;
     private String name;
     private ArrayList<Comment> commentList = new ArrayList<Comment>();
@@ -19,12 +20,16 @@ public class Field {
         this.name = name;
     }
 
-    public int getId(){
-        return this.id;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -32,10 +37,11 @@ public class Field {
     }
 
     public ArrayList<Comment> getCommentList() {
-        return this.commentList;
+        return commentList;
     }
 
     public void setCommentList(ArrayList<Comment> commentList) {
         this.commentList = commentList;
     }
+
 }

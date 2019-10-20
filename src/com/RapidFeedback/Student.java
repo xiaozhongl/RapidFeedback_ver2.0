@@ -23,29 +23,52 @@ public class Student {
         this.email = email;
     }
 
-    // get only
-    public int getId(){
-        return this.id;
+    public int getId() {
+        return id;
     }
 
-    public int getStudentNumber() {
-        return this.studentNumber;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getMiddleName() {
-        return this.middleName;
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(int studentNumber) {
+        this.studentNumber = studentNumber;
     }
 
 }

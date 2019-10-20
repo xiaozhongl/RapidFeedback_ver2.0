@@ -6,6 +6,7 @@ package com.RapidFeedback;
  * create time: 2019/9/22 5:16 PM
  */
 public class Marker {
+
     private int id;
     private String email;
     private String firstName;
@@ -20,24 +21,43 @@ public class Marker {
         this.lastName = lastName;
     }
 
-    // get only
-    public int getId(){
-        return this.id;
+    public int getId() {
+        return id;
     }
 
-    public String getEmail(){
-        return this.email;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getFirstName(){
-        return  this.firstName;
+    public String getEmail() {
+        return email;
     }
 
-    public String getMiddleName(){
-        return this.middleName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getLastName(){
-        return this.lastName;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

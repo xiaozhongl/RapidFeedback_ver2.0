@@ -39,98 +39,99 @@ public class ProjectStudent {
         this.audioId = audioId;
     }
 
-    // get only
-    public int getId(){
-        return this.id;
+    public int getId() {
+        return id;
     }
 
-
-    // get and set
-    public int getStudentNumber() {
-        return this.studentNumber;
-    }
-
-    public void setStudentNumber(int studentNumber){
-        this.studentNumber = studentNumber;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
-    public void setFirstName(String firstName){
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     public String getMiddleName() {
-        return this.middleName;
+        return middleName;
     }
 
-    public void setMiddleName(String middleName){
+    public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
-    public void setLastName(String lastName){
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public int getGroupNumber(){
-        return this.groupNumber;
+    public int getStudentNumber() {
+        return studentNumber;
     }
 
-    public void setGroupNumber(int groupNumber){
+    public void setStudentNumber(int studentNumber) {
+        this.studentNumber = studentNumber;
+    }
+
+    public int getGroupNumber() {
+        return groupNumber;
+    }
+
+    public void setGroupNumber(int groupNumber) {
         this.groupNumber = groupNumber;
     }
 
-    public double getFinalScore(){
-        return  this.finalScore;
+    public double getFinalScore() {
+        return finalScore;
     }
 
-    public void setFinalScore(double finalScore){
+    public void setFinalScore(double finalScore) {
         this.finalScore = finalScore;
     }
 
-    public String getFinalRemark(){
-        return this.finalRemark;
+    public String getFinalRemark() {
+        return finalRemark;
     }
 
-    public void setFinalRemark(String finalRemark){
+    public void setFinalRemark(String finalRemark) {
         this.finalRemark = finalRemark;
     }
 
-    public int getAudioId(){
-        return this.audioId;
+    public int getAudioId() {
+        return audioId;
     }
 
-    public void setAudioId(int audioId){
+    public void setAudioId(int audioId) {
         this.audioId = audioId;
     }
 
-    public int isIfEmailed(){
-        return this.ifEmailed;
+    public int getIfEmailed() {
+        return ifEmailed;
     }
 
-    public void setIfEmailed(int ifEmailed){
+    public void setIfEmailed(int ifEmailed) {
         this.ifEmailed = ifEmailed;
     }
 
-    public ArrayList<Remark> getRemarkList(){
-        return this.remarkList;
+    public ArrayList<Remark> getRemarkList() {
+        return remarkList;
     }
 
-    public void setRemarkList(ArrayList<Remark> remarkList){
+    public void setRemarkList(ArrayList<Remark> remarkList) {
         this.remarkList = remarkList;
     }
 

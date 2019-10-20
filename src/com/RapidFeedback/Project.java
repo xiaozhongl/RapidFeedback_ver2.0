@@ -39,18 +39,17 @@ public class Project{
         this.description = description;
     }
 
-    // get only
-    public int getId(){
-        return this.id;
+
+    public int getId() {
+        return id;
     }
 
-    public int getPrincipalId(){
-        return this.principalId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    // get and set
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -82,11 +81,19 @@ public class Project{
     }
 
     public int getWarningSec() {
-        return this.warningSec;
+        return warningSec;
     }
 
     public void setWarningSec(int warningSec) {
         this.warningSec = warningSec;
+    }
+
+    public int getPrincipalId() {
+        return principalId;
+    }
+
+    public void setPrincipalId(int principalId) {
+        this.principalId = principalId;
     }
 
     public String getDescription() {
@@ -97,43 +104,43 @@ public class Project{
         this.description = description;
     }
 
-    public int getDurationMin(){
-        return this.durationMin;
+    public int getDurationMin() {
+        return durationMin;
     }
 
-    public void setDurationMin(int durationMin){
+    public void setDurationMin(int durationMin) {
         this.durationMin = durationMin;
     }
 
-    public int getWarningMin(){
-        return this.warningMin;
+    public int getWarningMin() {
+        return warningMin;
     }
 
-    public void setWarningMin(int warningMin){
+    public void setWarningMin(int warningMin) {
         this.warningMin = warningMin;
     }
 
-    public ArrayList<Marker> getMarkerList(){
-        return this.markerList;
+    public ArrayList<Marker> getMarkerList() {
+        return markerList;
     }
 
-    public void setMarkerList(ArrayList<Marker> markerList){
+    public void setMarkerList(ArrayList<Marker> markerList) {
         this.markerList = markerList;
     }
 
-    public ArrayList<Criterion> getCriterionList(){
-        return this.criterionList;
+    public ArrayList<Criterion> getCriterionList() {
+        return criterionList;
     }
 
-    public void setCriterionList (ArrayList<Criterion> criterionList){
+    public void setCriterionList(ArrayList<Criterion> criterionList) {
         this.criterionList = criterionList;
     }
 
-    public ArrayList<ProjectStudent> getStudentList(){
-        return this.studentList;
+    public ArrayList<ProjectStudent> getStudentList() {
+        return studentList;
     }
 
-    public void setStudentList(ArrayList<ProjectStudent> studentList){
+    public void setStudentList(ArrayList<ProjectStudent> studentList) {
         this.studentList = studentList;
     }
 

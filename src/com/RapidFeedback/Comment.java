@@ -20,12 +20,16 @@ public class Comment {
         this.type = type;
     }
 
-    public int getId(){
-        return this.id;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getText() {
-        return this.text;
+        return text;
     }
 
     public void setText(String text) {
@@ -33,18 +37,19 @@ public class Comment {
     }
 
     public String getType() {
-        return this.type;
+        return type;
     }
 
     public void setType(String type) {
         this.type = type;
     }
 
-    public ArrayList<ExpandedComment> getExCommentList() {
-        return this.expandedCommentList;
+    public ArrayList<ExpandedComment> getExpandedCommentList() {
+        return expandedCommentList;
     }
 
-    public void setExCommentList(ArrayList<ExpandedComment> exCommentList) {
-        this.expandedCommentList = exCommentList;
+    public void setExpandedCommentList(ArrayList<ExpandedComment> expandedCommentList) {
+        this.expandedCommentList = expandedCommentList;
     }
+
 }

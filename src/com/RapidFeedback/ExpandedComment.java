@@ -6,6 +6,7 @@ package com.RapidFeedback;
  * create time: 2019/9/22 5:59 PM
  */
 public class ExpandedComment {
+
     private int id;
     private String text;
 
@@ -15,14 +16,19 @@ public class ExpandedComment {
     }
 
     public int getId() {
-        return this.id;
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getText() {
-        return this.text;
+        return text;
     }
 
     public void setText(String text) {
         this.text = text;
     }
+
 }

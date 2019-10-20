@@ -19,27 +19,29 @@ public class Assessment {
         this.score = score;
     }
 
-    // get only
-    public int getCriterionId(){
-        return this.criterionId;
+    public int getCriterionId() {
+        return criterionId;
     }
 
-
-    // get and set
-    public double getScore(){
-        return this.score;
+    public void setCriterionId(int criterionId) {
+        this.criterionId = criterionId;
     }
 
-    public void setScore(double score){
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
         this.score = score;
     }
 
-    public ArrayList<SelectedComment> getSelectedCommentList(){
-        return  this.selectedCommentList;
+    public ArrayList<SelectedComment> getSelectedCommentList() {
+        return selectedCommentList;
     }
 
-    public void setSelectedCommentList(ArrayList<SelectedComment> selectedCommentList){
+    public void setSelectedCommentList(ArrayList<SelectedComment> selectedCommentList) {
         this.selectedCommentList = selectedCommentList;
     }
+
 }
 
