@@ -81,21 +81,21 @@ public class CriteriaListServlet extends HttpServlet {
 
 		ServletContext servletContext = this.getServletContext();
 
-		boolean update_ACK;
+		boolean updateProject_ACK;
 		// Mention:
 		// call the SQL method to save two criteriaList: markedCriteriaList and
 		// commentCriteriaList
 		// return the 'true' or 'false' value to update_ACK
-		update_ACK = false;
+		updateProject_ACK = false;
 		boolean deleted = false;
 		deleted = dbFunction.deleteCriteria(projectId);
 		if (deleted) {
-			update_ACK = dbFunction.addCriteria(criterionList, projectId);
+			updateProject_ACK = dbFunction.addCriteria(criterionList, projectId);
 		}
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();
-		jsonSend.put("updateProject_ACK", update_ACK);
+		jsonSend.put("updateProject_ACK", updateProject_ACK);
 
 		// send
 		PrintWriter output = response.getWriter();
