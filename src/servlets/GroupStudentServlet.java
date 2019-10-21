@@ -72,7 +72,7 @@ public class GroupStudentServlet extends HttpServlet {
 
 		ServletContext servletContext = this.getServletContext();
 
-		boolean updateGroupNumber_ACK;
+		boolean updateStudent_ACK;
 		updateStudent_ACK = false;
 		// Mention:
 		// call the SQL method to edit the student groupID of a certain studentNumber
@@ -80,11 +80,11 @@ public class GroupStudentServlet extends HttpServlet {
 		// get the projectId from FE
 		// get the studentId from FE
 		// return the 'true' or 'false' value to updateStudent_ACK
-		updateGroupNumber_ACK = dbFunction.updateGroupNumber(projectId,	studentId, group);
+		updateStudent_ACK = dbFunction.updateGroupNumber(projectId,	studentId, group);
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();
-		jsonSend.put("updateStudent_ACK", updateGroupNumber_ACK);
+		jsonSend.put("updateStudent_ACK", updateStudent_ACK);
 
 		// send
 		PrintWriter output = response.getWriter();
