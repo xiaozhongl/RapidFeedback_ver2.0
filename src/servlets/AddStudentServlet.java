@@ -11,17 +11,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.RapidFeedback.InsideFunction;
 import com.RapidFeedback.MysqlFunction;
+import com.RapidFeedback.Student;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.*;
 
 /**
  * @ClassName AddStudentServlet
  * @Description a servlet to add a student of a specific project into the
  *              database.
  *
- * @author Jingxian Hu, Zhongke Tan
+ * @author Xizhi Geng
  */
 @WebServlet("/AddStudentServlet")
 public class AddStudentServlet extends HttpServlet {
@@ -52,7 +53,6 @@ public class AddStudentServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		MysqlFunction dbFunction = new MysqlFunction();
-		InsideFunction inside = new InsideFunction(dbFunction);
 
 		// get JSONObject from request
 		JSONObject jsonReceive;
@@ -64,28 +64,54 @@ public class AddStudentServlet extends HttpServlet {
 		System.out.println("Receive: " + wholeString);
 		jsonReceive = JSON.parseObject(wholeString);
 
+
+
 		// get values from received JSONObject
 		String token = jsonReceive.getString("token");
-		String projectName = jsonReceive.getString("projectName");
-		//the studentID here is the studentNumber.
-		String studentID = jsonReceive.getString("studentID");
-		String firstName = jsonReceive.getString("firstName");
-		String middleName = jsonReceive.getString("middleName");
-		String lastName = jsonReceive.getString("lastName");
-		String email = jsonReceive.getString("email");
+		String projectId = jsonReceive.getString("projectId");
+		
+		// String studentListString = jsonReceive.getString("studentList");
+		// List<StudentInfo> studentList = JSONObject.parseArray(studentListString,StudentInfo.class);
+		// ArrayList<StudentInfo> studentArrayList = new ArrayList(); 
+		// studentArrayList.addAll(studentList);
+
+
+		String studentList = jsonReceive.getString("studentList");
+  		ArrayList <Student> stuList= (ArrayList<Student>) JSON.parseArray(studentList,Student.class);
+
+
+
+		// //the studentID here is the studentNumber.
+		// String studentNumber = jsonReceive.getString("studentNumber");
+		// String firstName = jsonReceive.getString("firstName");
+		// String middleName = jsonReceive.getString("middleName");
+		// String lastName = jsonReceive.getString("lastName");
+		// String email = jsonReceive.getString("email");
 
 		ServletContext servletContext = this.getServletContext();
 
-		StudentInfo student = new StudentInfo(studentID, firstName, middleName,
-				lastName, email);
 
 		boolean updateStudent_ACK;
 		updateStudent_ACK = false;
 		// Mention:
 		// call the SQL method to add a student
 		// return the 'true' or 'false' value to updateStudent_ACK
-		updateStudent_ACK = inside.addStudent(servletContext, token,
-				projectName, student);
+		//addStudent will only return id which is an int, 0 or minus number both means fail, which will lead to a false to updateStudent_ACK
+		//postive id will lead to a true updateStudent_ACK
+		int addResult = 0;
+  		for (Student stu : stuList){
+			addResult = dbFunction.addStudent(stu.getFirstName(), stu.getMiddleName(), stu.getLastName(), stu.getStudentNumber(), stu.getEmail(), projectId);
+			if (addResult < 1){
+				break;
+			}
+		}
+		return addResult;
+
+		if (addResult > 0) {
+			updateStudent_ACK = true;
+		}
+
+
 
 		// construct the JSONObject to send
 		JSONObject jsonSend = new JSONObject();
@@ -95,5 +121,6 @@ public class AddStudentServlet extends HttpServlet {
 		PrintWriter output = response.getWriter();
 		output.print(jsonSend.toJSONString());
 	}
+
 
 }

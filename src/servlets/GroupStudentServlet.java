@@ -73,6 +73,7 @@ public class GroupStudentServlet extends HttpServlet {
 		ServletContext servletContext = this.getServletContext();
 
 		boolean updateGroupNumber_ACK;
+		updateStudent_ACK = false;
 		// Mention:
 		// call the SQL method to edit the student groupID of a certain studentNumber
 		// get the group from FE

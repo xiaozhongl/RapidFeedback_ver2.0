@@ -77,6 +77,7 @@ public class EditStudentServlet extends HttpServlet {
 		ServletContext servletContext = this.getServletContext();
 		
 		boolean updateStudent_ACK;
+		updateStudent_ACK = false;
 		// Mention:
 		// call the SQL method to edit the student information 
 		// return the 'true' or 'false' value to updateStudent_ACK

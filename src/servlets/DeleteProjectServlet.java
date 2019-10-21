@@ -68,6 +68,7 @@ public class DeleteProjectServlet extends HttpServlet {
 		ServletContext servletContext = this.getServletContext();
 
 		boolean updateProject_ACK;
+		updateProject_ACK = false;
 		// Mention:
 		// call the SQL method to delete the project according to projectId
 		// give the result "true" or "false" to updateProject_ACK
