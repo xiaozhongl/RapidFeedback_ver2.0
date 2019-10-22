@@ -1951,4 +1951,25 @@ public class MysqlFunction {
 //		return numList;
 //	}
 
+	public int createAudio() {
+		Connection connection;
+		PreparedStatement statement;
+		ResultSet rs;
+		int id = 0;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement(
+					"INSERT INTO Audio() values ()", PreparedStatement.RETURN_GENERATED_KEYS);
+			statement.executeUpdate();
+			rs = statement.getGeneratedKeys();
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return id;
+	}
+
 }

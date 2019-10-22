@@ -97,6 +97,6 @@ public class Test {
 //        System.out.println(JSON.toJSONString(slist));
 //        System.out.println(JSON.toJSONString(db.getProjectStudent(15, 7)));
         PDFUtil pdf = new PDFUtil();
-        pdf.create(15, 7, "/Users/sindorei/Desktop/", "test.pdf");
+        pdf.create(15, 7, "/Users/sindorei/audio/", "test.pdf");
     }
 }
