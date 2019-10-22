@@ -267,7 +267,7 @@ public class PDFUtil {
 
 				 phrase = PDFUtil.createPhrase(
 						Double.toString(assessment.getScore()) + "/" +
-								db.getMaximumMark(assessment.getCriterionId(), projectId), markFont);
+								db.getMaximumMark(assessment.getCriterionId(), project.getId()), markFont);
 				section.add(phrase);
 
 				for (SelectedComment selectedComment: selectedCommentList) {

@@ -22,8 +22,6 @@ public class MysqlFunction {
 	static final String PASS = "alfa1994";
 
 
-
-
 	private Connection connectToDB(String url, String userName,
 			String password) {
 		Connection conn = null;
