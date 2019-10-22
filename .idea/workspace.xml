@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="596f2964-cfa5-49e2-a8bb-f6a040ac5630" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/com/RapidFeedback/InsideFunction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/com/RapidFeedback/PDFUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/com/RapidFeedback/PDFUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/com/RapidFeedback/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/com/RapidFeedback/Test.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/PDFUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/PDFUtil.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +87,7 @@
       <workItem from="1571556008702" duration="1974000" />
       <workItem from="1571566642580" duration="1525000" />
       <workItem from="1571612364599" duration="1283000" />
-      <workItem from="1571699588962" duration="16094000" />
+      <workItem from="1571699588962" duration="16903000" />
     </task>
     <servers />
   </component>

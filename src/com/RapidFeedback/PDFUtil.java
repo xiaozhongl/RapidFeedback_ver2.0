@@ -177,10 +177,8 @@ public class PDFUtil {
 	}
 
 
-	public void create(int studentId, int projectId, String filePath, String fileName) {
+	public void create(ProjectStudent student, Project project, String filePath, String fileName) {
 		MysqlFunction db = new MysqlFunction();
-		ProjectStudent student = db.getProjectStudent(studentId, projectId);
-		Project project = db.getProject(projectId);
 
 		String studentName = student.getFirstName();
 		String studentNumber = String.valueOf(student.getStudentNumber());

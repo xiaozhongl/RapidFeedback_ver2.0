@@ -198,6 +198,26 @@ public class MysqlFunction {
 		return name;
 	}
 
+	public String getMarkerEmail(int id){
+		String email = null;
+		Connection connection;
+		ResultSet rs;
+		PreparedStatement statement;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement("SELECT * FROM Marker WHERE id= ?");
+			statement.setInt(1, id);
+			rs = statement.executeQuery();
+			if (rs.next()){
+				email = rs.getString("email");
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return email;
+	}
+
 	public boolean isMarkerInProject(int markerId, int projectId){
 		boolean isMarkerInProject = false;
 		Connection connection;
@@ -726,21 +746,21 @@ public class MysqlFunction {
 	 * @return True if update successfully; False if fail to update
 	 */
 	public boolean updateFinalResult(int projectId, int studentId, double finalScore,
-						String finalRemark,int audioId) {
+						String finalRemark) {
 		boolean updated = false;
 		Connection connection;
 		PreparedStatement statement;
 		try {
 			connection = connectToDB(DB_URL, USER, PASS);
 			statement = connection.prepareStatement(
-					"UPDATE StudentInProject SET finalScore = ?, finalRemark = ?, ifEmailed = ?, idAudio = ? " +
+					"UPDATE StudentInProject SET finalScore = ?, finalRemark = ?, ifEmailed = ? " +
 							"WHERE idProject = ? AND idStudent = ?");
 			statement.setDouble(1, finalScore);
 			statement.setString(2, finalRemark);
 			statement.setInt(3, 1);
-			statement.setInt(4, audioId);
-			statement.setInt(5, projectId);
-			statement.setInt(6, studentId);
+//			statement.setInt(4, audioId);
+			statement.setInt(4, projectId);
+			statement.setInt(5, studentId);
 			statement.executeUpdate();
 			updated = true;
 			connection.close();
