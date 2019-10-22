@@ -1,0 +1,19 @@
+{"studentList":[
+        {
+            "email": "email",
+            "firstName": "firstName",
+            "id": 1,
+            "lastName": "lastName",
+            "middleName": "",
+            "studentNumber": 111
+        },
+        {
+            "email": "email",
+            "firstName": "firstName",
+            "id": 2,
+            "lastName": "lastName",
+            "middleName": "",
+            "studentNumber": 222
+        }
+    ]
+}

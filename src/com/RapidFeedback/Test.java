@@ -95,7 +95,8 @@ public class Test {
 //        slist.add(new Student(1,"firstName", "", "lastName", "email", 111));
 //        slist.add(new Student(2,"firstName", "", "lastName", "email", 222));
 //        System.out.println(JSON.toJSONString(slist));
-        System.out.println(db.isMarkerPrincipal(4,7));
-
+//        System.out.println(JSON.toJSONString(db.getProjectStudent(15, 7)));
+        PDFUtil pdf = new PDFUtil();
+        pdf.create(15, 7, "/Users/sindorei/Desktop/", "test.pdf");
     }
 }

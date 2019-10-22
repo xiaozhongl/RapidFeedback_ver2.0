@@ -1,0 +1,104 @@
+
+{
+    "criterionList": [
+        {
+            "fieldList": [
+                {
+                    "commentList": [
+                        {
+                            "exCommentList": [
+                                {
+                                    "id": 2,
+                                    "text": "e1"
+                                },
+                                {
+                                    "id": 3,
+                                    "text": "e2"
+                                }
+                            ],
+                            "id": 15,
+                            "text": "c1",
+                            "type": "Positive"
+                        },
+                        {
+                            "exCommentList": [
+                                {
+                                    "id": 4,
+                                    "text": "e1"
+                                },
+                                {
+                                    "id": 5,
+                                    "text": "e2"
+                                }
+                            ],
+                            "id": 16,
+                            "text": "c2",
+                            "type": "Negative"
+                        }
+                    ],
+                    "id": 8,
+                    "name": "f1"
+                },
+                {
+                    "commentList": [
+                        {
+                            "exCommentList": [
+                                {
+                                    "id": 6,
+                                    "text": "e1"
+                                }
+                            ],
+                            "id": 17,
+                            "text": "c1",
+                            "type": "Positive"
+                        },
+                        {
+                            "exCommentList": [
+                                {
+                                    "id": 7,
+                                    "text": "e1"
+                                }
+                            ],
+                            "id": 18,
+                            "text": "c2",
+                            "type": "Negative"
+                        }
+                    ],
+                    "id": 9,
+                    "name": "f2"
+                }
+            ],
+            "id": 1,
+            "markIncrement": 1,
+            "maximumMark": 10,
+            "name": "c1",
+            "weight": 0.5
+        },
+        {
+            "fieldList": [
+                {
+                    "commentList": [
+                        {
+                            "exCommentList": [
+                                {
+                                    "id": 8,
+                                    "text": "e1"
+                                }
+                            ],
+                            "id": 19,
+                            "text": "c1",
+                            "type": "Positive"
+                        }
+                    ],
+                    "id": 10,
+                    "name": "f1"
+                }
+            ],
+            "id": 2,
+            "markIncrement": 1,
+            "maximumMark": 10,
+            "name": "c2",
+            "weight": 0.5
+        }
+    ]
+}

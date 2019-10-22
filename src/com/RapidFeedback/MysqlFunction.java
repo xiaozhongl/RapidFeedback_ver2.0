@@ -1137,6 +1137,66 @@ public class MysqlFunction {
 		return deleted;
 	}
 
+	public String getCriteriaName(int id) {
+		String name = "";
+		Connection connection;
+		PreparedStatement statement;
+		ResultSet resultSet;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement("SELECT * FROM Criterion WHERE id = ?");
+			statement.setInt(1, id);
+			resultSet = statement.executeQuery();
+			if (resultSet.next()){
+				name = resultSet.getString("name");
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return name;
+	}
+
+	public String getFieldName(int id) {
+		String name = "";
+		Connection connection;
+		PreparedStatement statement;
+		ResultSet resultSet;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement("SELECT * FROM Field WHERE id = ?");
+			statement.setInt(1, id);
+			resultSet = statement.executeQuery();
+			if (resultSet.next()){
+				name = resultSet.getString("name");
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return name;
+	}
+
+	public String getExpandedCommentText(int id) {
+		String text = "";
+		Connection connection;
+		PreparedStatement statement;
+		ResultSet resultSet;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement("SELECT * FROM ExpandedComment WHERE id = ?");
+			statement.setInt(1, id);
+			resultSet = statement.executeQuery();
+			if (resultSet.next()){
+				text = resultSet.getString("text");
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return text;
+	}
+
 //	/**
 //	 * create by: Xiaozhong Liu
 //	 * description: update a criterion in a project
@@ -1294,6 +1354,83 @@ public class MysqlFunction {
 		return projectList;
 	}
 
+	public Project getProject (int projectId){
+		Connection connection;
+		PreparedStatement statement;
+		ResultSet rs;
+		Project project = null;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement("SELECT * FROM Project WHERE id = ?");
+			statement.setInt(1, projectId);
+			rs = statement.executeQuery();
+			if (rs.next()) {
+				project = new Project(
+						rs.getInt("id"),
+						rs.getString("name"),
+						rs.getString("subjectName"),
+						rs.getString("subjectCode"),
+						rs.getInt("durationSec"),
+						rs.getInt("warningSec"),
+						rs.getInt("idPrincipal"),
+						rs.getString("description"));
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return project;
+	}
+
+	public ProjectStudent getProjectStudent (int studentId, int projectId){
+		Connection connection;
+		HashMap<String,PreparedStatement> statements = new HashMap<String,PreparedStatement>();
+		PreparedStatement getStudent;
+		ResultSet rs;
+		ProjectStudent student = null;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			// prepare statements
+			statements.put("getStudent", connection.prepareStatement(
+					"SELECT * FROM StudentInProject INNER JOIN Student " +
+							"ON StudentInProject.idStudent = Student.id " +
+							"WHERE idProject = ? AND idStudent = ?"));
+			statements.put("getStudentMarkers", connection.prepareStatement(
+					"SELECT * FROM Remark WHERE idProject = ? AND idStudent = ?"));
+			statements.put("getAssessments", connection.prepareStatement(
+					"SELECT * FROM Assessment WHERE idProject = ? AND idStudent = ? AND idMarker = ?"));
+			statements.put("getSelectedComments", connection.prepareStatement(
+					"SELECT * FROM SelectedComment " +
+							"WHERE idProject = ? AND idCriterion = ? AND idStudent = ? AND idMarker = ?"));
+
+
+			// get projects of a given marker, either be principal or normal marker
+			getStudent = statements.get("getStudent");
+			getStudent.setInt(1, projectId);
+			getStudent.setInt(2, studentId);
+			rs = getStudent.executeQuery();
+			if (rs.next()) {
+				student = new ProjectStudent(
+						rs.getInt("id"),
+						rs.getString("firstName"),
+						rs.getString("middleName"),
+						rs.getString("lastName"),
+						rs.getInt("studentNumber"),
+						rs.getString("email"),
+						rs.getInt("group"),
+						rs.getDouble("finalScore"),
+						rs.getString("finalRemark"),
+						rs.getInt("ifEmailed"),
+						rs.getInt("idAudio"));
+				student.setRemarkList(getRemarkList(statements, projectId, rs.getInt("id")));
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return student;
+	}
+
 	private ArrayList<Marker> getMarkerList(HashMap<String,PreparedStatement> statements,
 											int projectId) throws SQLException {
 //		"SELECT * FROM MarkerInProject INNER JOIN Marker " +
@@ -1333,6 +1470,8 @@ public class MysqlFunction {
 		}
 		return markerList;
 	}
+
+
 
 
 	private ArrayList<ProjectStudent> getStudentList(HashMap<String,PreparedStatement> statements, int projectId){
@@ -1749,6 +1888,28 @@ public class MysqlFunction {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
 		}
 		return updated;
+	}
+
+	public double getMaximumMark(int criterionId, int projectId){
+		double mark = -1;
+		Connection connection;
+		ResultSet rs;
+		PreparedStatement statement;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement(
+					"SELECT * FROM ProjectCriterion WHERE idProject= ? AND idCriterion = ?");
+			statement.setInt(1, projectId);
+			statement.setInt(2, criterionId);
+			rs = statement.executeQuery();
+			if (rs.next()){
+				mark = rs.getDouble("maximumMark");
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return mark;
 	}
 
 //	public List<Integer> queryProjects(String mail) throws SQLException {

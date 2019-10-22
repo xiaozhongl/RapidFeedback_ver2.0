@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="596f2964-cfa5-49e2-a8bb-f6a040ac5630" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RapidFeedback.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/com/RapidFeedback/MysqlFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/com/RapidFeedback/MysqlFunction.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/com/RapidFeedback/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/com/RapidFeedback/Test.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/Test.java" afterDir="false" />
@@ -87,7 +87,9 @@
       <workItem from="1570756361609" duration="2219000" />
       <workItem from="1571306701095" duration="55375000" />
       <workItem from="1571556008702" duration="1974000" />
-      <workItem from="1571566642580" duration="1233000" />
+      <workItem from="1571566642580" duration="1525000" />
+      <workItem from="1571612364599" duration="1283000" />
+      <workItem from="1571699588962" duration="15272000" />
     </task>
     <servers />
   </component>
