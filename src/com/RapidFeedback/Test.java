@@ -44,7 +44,6 @@ public class Test {
 //        db.updateGroupNumber(2,3,1);
 //        db.updateGroupNumber(2,4,1);
 
-
 //        bool = db.updateFinalResult(2,3, 99, "good", 1);
 
 //        name = db.getMarkerName(6);
@@ -54,8 +53,6 @@ public class Test {
 
 //        projects = db.getProjectList(2);
 //        System.out.println(JSON.toJSONString(projects));
-
-
 
 //        List<Project> projectList = new Gson().fromJson(JSON.toJSONString(projects),
 //                new TypeToken<List<Project>>(){}.getType());
@@ -72,14 +69,14 @@ public class Test {
 //        System.out.println(db.addStudent("xz2",
 //                "", "l", 456, "",7));
 
-//        projects = db.getProjectList(4);
-//        System.out.println(JSON.toJSONString(projects));
+        projects = db.getProjectList(4);
+        System.out.println(JSON.toJSONString(projects));
 
-//        List<Project> projectList = new Gson().fromJson(JSON.toJSONString(projects),
-//                new TypeToken<List<Project>>(){}.getType());
-//        ArrayList<Project> arrayList ;
-//        arrayList = new ArrayList();
-//        arrayList.addAll(projectList);
+        List<Project> projectList = new Gson().fromJson(JSON.toJSONString(projects),
+                new TypeToken<List<Project>>(){}.getType());
+        ArrayList<Project> arrayList ;
+        arrayList = new ArrayList();
+        arrayList.addAll(projectList);
 //        Project project1 = arrayList.get(1);
 //        ProjectStudent student = project1.getStudentList().get(0);
 //        Remark remark = student.getRemarkList().get(0);
@@ -96,7 +93,8 @@ public class Test {
 //        slist.add(new Student(2,"firstName", "", "lastName", "email", 222));
 //        System.out.println(JSON.toJSONString(slist));
 //        System.out.println(JSON.toJSONString(db.getProjectStudent(15, 7)));
-        PDFUtil pdf = new PDFUtil();
-        pdf.create(15, 7, "/Users/sindorei/audio/", "test.pdf");
+//        PDFUtil pdf = new PDFUtil();
+//        pdf.create(15, 7, "/Users/sindorei/audio/", "test.pdf");
+//        pdf.create(db.getProjectStudent(15, 7), db.getProject(7), "/Users/sindorei/audio/", "test.pdf");
     }
 }

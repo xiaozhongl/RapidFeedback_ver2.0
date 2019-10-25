@@ -260,6 +260,27 @@ public class MysqlFunction {
 		return isMarkerPrincipal;
 	}
 
+	public boolean isMarkerPrincipal(int markerId){
+		boolean isMarkerPrincipal = false;
+		Connection connection;
+		ResultSet rs;
+		PreparedStatement statement;
+		try {
+			connection = connectToDB(DB_URL, USER, PASS);
+			statement = connection.prepareStatement(
+					"SELECT * FROM Project WHERE idPrincipal = ?");
+			statement.setInt(1, markerId);
+			rs = statement.executeQuery();
+			if (rs.next()){
+				isMarkerPrincipal = true;
+			}
+			connection.close();
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}
+		return isMarkerPrincipal;
+	}
+
 	/**
 	 * create by: Xiaozhong Liu
 	 * description: create a project in database
@@ -363,7 +384,8 @@ public class MysqlFunction {
 		PreparedStatement statement;
 		try {
 			connection = connectToDB(DB_URL, USER, PASS);
-			statement = connection.prepareStatement("UPDATE Project SET idPrincipal = 1 WHERE id = ?");
+			statement = connection.prepareStatement(
+					"UPDATE Project SET idPrincipal = 1 WHERE id = ?");
 			statement.setInt(1, projectId);
 			statement.executeUpdate();
 			deleted = true;
@@ -445,55 +467,55 @@ public class MysqlFunction {
 	}
 
 
-	public int addStudent(String firstName, String middleName,String lastName,
-				   int studentNumber, String email, int projectId) {
-		int ack = 0;
-		int id;
-		Connection connection;
-		HashMap<String,PreparedStatement> statements = new HashMap<String, PreparedStatement>();
-		Student student;
-		try {
-			student = new Student(0, firstName, middleName, lastName, email, studentNumber);
-
-			connection = connectToDB(DB_URL, USER, PASS);
-			// prepare statements
-			statements.put("getStudent", connection.prepareStatement(
-					"SELECT * FROM Student WHERE studentNumber = ?"));
-
-			statements.put("addStudent", connection.prepareStatement(
-					"INSERT INTO Student(firstName, middleName, lastName, studentNumber, email) " +
-							"VALUES (?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS));
-
-			statements.put("addStudentToProject", connection.prepareStatement(
-					"INSERT INTO StudentInProject(idProject, idStudent, `group`, finalScore, " +
-							"finalRemark, ifEmailed, idAudio) values(?,?,?,?,?,?,?)"));
-
-			statements.put("getStudentFromProject", connection.prepareStatement(
-					"SELECT * FROM StudentInProject WHERE idProject = ? AND idStudent = ?"));
-
-			// create student
-			id = createStudent(statements, student);
-			// add student to project
-			if (id != 0) {
-				if (!addStudentToProject(statements, projectId, id)) {
-					// could only due to database error
-					ack = -1 * student.getStudentNumber();
-					connection.close();
-					return ack;
-				}
-			}
-			else{
-				ack = -1 * student.getStudentNumber();
-				connection.close();
-				return ack;
-			}
-			ack = 1;
-			connection.close();
-		} catch (SQLException e) {
-			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-		}
-		return ack;
-	}
+//	public int addStudent(String firstName, String middleName,String lastName,
+//				   int studentNumber, String email, int projectId) {
+//		int ack = 0;
+//		int id;
+//		Connection connection;
+//		HashMap<String,PreparedStatement> statements = new HashMap<String, PreparedStatement>();
+//		Student student;
+//		try {
+//			student = new Student(0, firstName, middleName, lastName, email, studentNumber);
+//
+//			connection = connectToDB(DB_URL, USER, PASS);
+//			// prepare statements
+//			statements.put("getStudent", connection.prepareStatement(
+//					"SELECT * FROM Student WHERE studentNumber = ?"));
+//
+//			statements.put("addStudent", connection.prepareStatement(
+//					"INSERT INTO Student(firstName, middleName, lastName, studentNumber, email) " +
+//							"VALUES (?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS));
+//
+//			statements.put("addStudentToProject", connection.prepareStatement(
+//					"INSERT INTO StudentInProject(idProject, idStudent, `group`, finalScore, " +
+//							"finalRemark, ifEmailed, idAudio) values(?,?,?,?,?,?,?)"));
+//
+//			statements.put("getStudentFromProject", connection.prepareStatement(
+//					"SELECT * FROM StudentInProject WHERE idProject = ? AND idStudent = ?"));
+//
+//			// create student
+//			id = createStudent(statements, student);
+//			// add student to project
+//			if (id != 0) {
+//				if (!addStudentToProject(statements, projectId, id)) {
+//					// could only due to database error
+//					ack = -1 * student.getStudentNumber();
+//					connection.close();
+//					return ack;
+//				}
+//			}
+//			else{
+//				ack = -1 * student.getStudentNumber();
+//				connection.close();
+//				return ack;
+//			}
+//			ack = 1;
+//			connection.close();
+//		} catch (SQLException e) {
+//			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+//		}
+//		return ack;
+//	}
 
 
 	/**

@@ -182,6 +182,7 @@ public class PDFUtil {
 
 		String studentName = student.getFirstName();
 		String studentNumber = String.valueOf(student.getStudentNumber());
+		String audioFile = String.valueOf(1910250000 + db.createAudio());
 		String finalScore = String.valueOf(student.getFinalScore());
 		String finalRemark = student.getFinalRemark();
 		ArrayList<Remark> remarkList = student.getRemarkList();
@@ -218,19 +219,19 @@ public class PDFUtil {
 		Section section1 = PDFUtil.createSection(chapter, "Student Information",
 				sectionFont, 0);
 		Phrase text1 = PDFUtil.createPhrase(
-				"Student:  " + studentName + "  " + studentNumber, textFont);
+				"Student:  " + studentName + "  " + studentNumber, markFont);
 		section1.add(text1);
 
 		// subject info
 		Section section2 = PDFUtil.createSection(chapter, "Project Information",
 				sectionFont, 0);
-		Phrase text2 = PDFUtil.createPhrase(projectName + " for " +  subjectName, textFont);
+		Phrase text2 = PDFUtil.createPhrase(projectName + " for " +  subjectName, markFont);
 		section2.add(text2);
 
 		//  final score
 		Section section3 = PDFUtil.createSection(chapter, "Final Score",
 				sectionFont, 0);
-		Phrase text3 = PDFUtil.createPhrase(finalScore, textFont);
+		Phrase text3 = PDFUtil.createPhrase(finalScore, markFont);
 		section3.add(text3);
 
 		// final remark
@@ -239,19 +240,30 @@ public class PDFUtil {
 		Phrase phrase = PDFUtil.createPhrase(finalRemark, markFont);
 		section4.add(phrase);
 
-		Section section5 = PDFUtil.createSection(chapter, "Date", sectionFont,
+		Section section5 = PDFUtil.createSection(chapter, "Audio Feedback", sectionFont,
+				0);
+
+		Phrase text5 = PDFUtil.createPhrase(
+				"Your audio feedback can be downloaded at:\n"
+						+ "http://10.0.0.56:8080/audio/" + audioFile + ".mp4", markFont);
+		section5.add(text5);
+
+		Section section6 = PDFUtil.createSection(chapter, "Date", sectionFont,
 				0);
 		Date date = new Date();
 
-		Phrase text5 = PDFUtil.createPhrase(
-				"This report is generated at " + date.toString(), textFont);
-		section5.add(text5);
+		Phrase text6 = PDFUtil.createPhrase(
+				"This report is generated at " + date.toString(), markFont);
+		section6.add(text6);
+
+
+
 
 		pdfUtil.writeChapterToDoc(chapter);
 
 		int markerIndex = 1;
 		for (Remark remark : remarkList){
-			chapter = PDFUtil.createChapter("Assessment from Marker" + String.valueOf(markerIndex),
+			chapter = PDFUtil.createChapter("Assessment from Marker " + String.valueOf(markerIndex),
 					0, 1, 0, chapterFont);
 
 			ArrayList<Assessment> assessmentList = remark.getAssessmentList();

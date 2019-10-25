@@ -24,10 +24,10 @@ POST
     middleName:
     lastName:
 }
+
 response
 {
-    <!-- register_ACK: //true: success/ false: fail -->
-    id: > 0 if success, 0 if database error, -1 if username exists   <!-- new added -->
+    id: > 0 if success, 0 if database error, -1 if username exists
 }
 
 
@@ -42,7 +42,9 @@ POST
 }
 response
 {
-    updateStudent_ACK: boolean
+    updateStudent_ACK: int //1 if all students are added successfully
+	 		   //0 if SQL exception
+			   //-studentNumber if the student information is illegal
 }
 
 /CriteriaListServlet
@@ -56,7 +58,7 @@ POST
 }
 response
 {
-    updateProject_ACK: boolean
+    updateProject_ACK: boolean  // all added or not
 }
 
 
@@ -77,8 +79,8 @@ to delete a student of a specific project
 POST
 {
     token: String
-    projectId: String
-    studentId:   primary key
+    projectId: int
+    studentId: int   // primary key of student
 }
 response
 {
@@ -90,12 +92,11 @@ response
 POST
 {
     token: String
-    <!-- projectName: String -->        <!-- deleted -->
-    studentId: int    <!-- the primary key, not student number -->
+    studentId: int    // primary key of student
     firstName: String
     middleName: String
     lastName:  String
-    studentNumber: 
+    studentNumber: int 
     email: String   // student's email
 }
 response
@@ -108,7 +109,7 @@ POST
 {
     token: String
     projectId:
-    studentId: String
+    studentId: int
     group: int
 }
 response
@@ -130,6 +131,7 @@ response
     invite_ACK: int
     markerName: 
 }
+
 DELETE
 {
     token: String
@@ -141,19 +143,17 @@ response
     invite_ACK: boolean
 }
 
-/AssessmentServlet
+/AddResultServlet
 POST
 {
     token: String
-    projectId: String
-    studentId: String
-    markerId: String     // actual type: Mark
-    remark: text
-    assessmentList: ArrayList<Assessment>
+    projectId: 
+    studentId: 
+    remark: Remark object
 }
 response
 {
-    mark_AC: boolean
+    ACK: boolean
 }
 
 /FinalResultServlet
@@ -215,5 +215,5 @@ POST
 response
 {
     syn_ACK: boolean
-    projectList: String
+    projectList: ArrayList<Project>
 }
