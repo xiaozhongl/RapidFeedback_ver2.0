@@ -19,7 +19,7 @@ public class MysqlFunction {
 	static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/mydb?serverTimezone=UTC&useSSL=false";
 
 	static final String USER = "root";
-	static final String PASS = "alfa1994";
+	static final String PASS = "ayb3300088@";
 
 
 	private Connection connectToDB(String url, String userName,

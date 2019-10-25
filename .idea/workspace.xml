@@ -2,9 +2,95 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="596f2964-cfa5-49e2-a8bb-f6a040ac5630" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/RapidFeedback_ver2_0_war.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/RapidFeedback_ver2_0_war_exploded.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war/RapidFeedback.war" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war/RapidFeedback_ver2.0_war.war" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/Assessment.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/Comment.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/Criterion.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/ExpandedComment.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/Field.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/Marker.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/MysqlFunction.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/PDFUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/Project.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/ProjectStudent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/Remark.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/SelectedComment.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/SendMail$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/SendMail.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/Student.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/com/RapidFeedback/Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/AddResultServlet$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/AddResultServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/AddStudentServlet$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/AddStudentServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/AudioRecorderServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/CriteriaListServlet$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/CriteriaListServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/DeleteProjectServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/DeleteStudentServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/EditStudentServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/GroupStudentServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/InviteAssessorServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/LoginServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/RegisterServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/SendEmailServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/SyncProjectListServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/Token.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/classes/servlets/UpdateProject_About_Servlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/activation-1.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/commons-fileupload-1.3.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/commons-io-2.5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/fastjson-1.2.57.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/gson-2.8.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/itextpdf-5.4.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/jasper-6.0.29.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/javax.mail-1.6.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/mysql-connector-java-8.0.15.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/pdfbox-2.0.15.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/lib/servlet-api.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/RapidFeedback_ver2_0_war_exploded/WEB-INF/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/AddResultServlet$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/AddResultServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/AddStudentServlet$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/AddStudentServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/AudioRecorderServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/CriteriaListServlet$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/CriteriaListServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/DeleteProjectServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/DeleteStudentServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/EditStudentServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/GroupStudentServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/InviteAssessorServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/LoginServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/RegisterServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/SendEmailServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/SyncProjectListServlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/Token.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/RapidFeedback_ver2.0/servlets/UpdateProject_About_Servlet.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/AddResultServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/AddStudentServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/AudioRecorderServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/CriteriaListServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/DeleteProjectServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/DeleteStudentServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/EditStudentServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/GroupStudentServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/InviteAssessorServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/LoginServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/RegisterServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/SendEmailServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/SyncProjectListServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/Token.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/servlets/UpdateProject_About_Servlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/lib/jasper-6.0.29.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/lib/jasper-6.0.29.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/WEB-INF/lib/servlet-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/WEB-INF/lib/servlet-api.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/MysqlFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/RapidFeedback/PDFUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/RapidFeedback/PDFUtil.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +106,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="mysql" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1RgIyyi6P1szcgHGxz47rEuaPba" />
@@ -34,6 +125,9 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -88,6 +182,7 @@
       <workItem from="1571566642580" duration="1525000" />
       <workItem from="1571612364599" duration="1283000" />
       <workItem from="1571699588962" duration="17095000" />
+      <workItem from="1571981348993" duration="1197000" />
     </task>
     <servers />
   </component>
